@@ -4,3 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+rig-core = "0.32.0"
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.8"
+dirs = "6.0"
+tokio = { version = "1", features = ["full"] }
