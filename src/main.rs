@@ -1,60 +1,11 @@
 mod config;
+mod prompts;
+mod response;
 
 use config::{Config, ProviderConfig};
 use rig::client::{CompletionClient, ProviderClient};
 use rig::completion::Prompt;
 use std::env;
-
-const SYSTEM_PROMPT: &str = r#"You are a command-line assistant. Your task is to convert the user's natural language request into a valid shell command and explain what it does.
-
-Rules:
-1. Return the command on the first line (plain text, no markdown)
-2. Return a compact explanation in Markdown format starting from the second line
-3. The explanation should be concise and include:
-   - Command name with brief description
-   - Arguments/options as bullet points with brief descriptions
-   - For complex expressions (like awk scripts, regex, etc.), explain the key components
-4. Use compact Markdown formatting
-5. The command should be safe and executable in a standard shell (bash/zsh)
-6. If the request is ambiguous, provide the most common interpretation
-
-Format:
-<command>
-## `<binary>` - <brief description>
-- `<arg>` - <brief description>
-- `<complex_arg>` - <explain key components>
-
-Examples:
-User: "list all files in current directory"
-Response:
-ls -la
-## `ls` - list directory contents
-- `-l` - Use long listing format (detailed info)
-- `-a` - Do not ignore entries starting with . (show hidden files)
-
-User: "find all python files"
-Response:
-find . -name "*.py"
-## `find` - search for files in directory hierarchy
-- `.` - Start searching from current directory
-- `-name "*.py"` - Match files ending with .py extension
-
-User: "show git status"
-Response:
-git status
-## `git status` - show working tree status
-- Displays staged, unstaged, and untracked files
-
-User: "find smallest file and add 1 to its size"
-Response:
-ls -lS | awk 'NR==2 {print $5 + 1}'
-## Pipeline: `ls` + `awk`
-- `ls -lS` - List files in long format, sorted by size (largest first)
-- `| awk 'NR==2 {print $5 + 1}'` - Extract size from smallest file and add 1
-  - `NR==2` - Select the 2nd line (smallest file after header)
-  - `$5` - The 5th field (file size in bytes)
-  - `+ 1` - Add 1 to the size value
-"#;
 
 #[tokio::main]
 async fn main() {
@@ -92,8 +43,8 @@ async fn main() {
         }
     };
 
-    // Generate command and explanation using AI
-    let (command, explanation, raw_response) = match generate_command(provider_config, &query).await {
+    // Generate command using AI
+    let resp = match generate_command(provider_config, &query).await {
         Ok(result) => result,
         Err(e) => {
             eprintln!("Failed to generate command: {}", e);
@@ -101,19 +52,23 @@ async fn main() {
         }
     };
 
-    // Write raw AI response to tmp log file for debugging
+    // Write command line to tmp log file for debugging
     let log_path = std::path::PathBuf::from("/tmp/tryto_debug.log");
-    if let Err(e) = std::fs::write(&log_path, &raw_response) {
+    if let Err(e) = std::fs::write(&log_path, &resp.command_line) {
         eprintln!("Warning: Failed to write debug log: {}", e);
     } else {
-        eprintln!("Debug: Raw AI response written to {}", log_path.display());
+        eprintln!("Debug: Command written to {}", log_path.display());
     }
 
-    // Show the explanation first (rendered from markdown using termimad), then the command, and ask for confirmation
-    let skin = termimad::MadSkin::default();
-    let rendered_explanation = skin.term_text(&explanation);
-    println!("\n{}", rendered_explanation);
-    println!("\n$ {}", command);
+    // Show the pipeline info, then the command, and ask for confirmation
+    println!("\nCommand pipeline:");
+    for (i, cmd) in resp.pipeline.iter().enumerate() {
+        println!("  [{}] {}", i + 1, cmd.name);
+        for arg in &cmd.args {
+            println!("      - {}", arg);
+        }
+    }
+    println!("\n$ {}", resp.command_line);
     print!("\nExecute? [Y/n] ");
     use std::io::Write;
     std::io::stdout().flush().unwrap();
@@ -126,33 +81,39 @@ async fn main() {
         // Execute the command
         let status = std::process::Command::new("sh")
             .arg("-c")
-            .arg(&command)
+            .arg(&resp.command_line)
             .status()
             .expect("Failed to execute command");
-        
+
         std::process::exit(status.code().unwrap_or(1));
     } else {
         println!("Command cancelled");
     }
 }
 
-fn parse_response(response: &str) -> (String, String, String) {
-    let lines: Vec<&str> = response.trim().lines().collect();
-    if lines.len() >= 2 {
-        let command = lines[0].trim().to_string();
-        let explanation = lines[1..].join("\n").trim().to_string();
-        (command, explanation, response.to_string())
-    } else if lines.len() == 1 {
-        (lines[0].trim().to_string(), "No explanation provided".to_string(), response.to_string())
+fn parse_response(response: &str) -> Result<response::Response, Box<dyn std::error::Error>> {
+    // Try to parse as JSON first
+    let json_str = response.trim();
+    // Handle markdown code blocks
+    let json_str = if json_str.starts_with("```") {
+        json_str
+            .lines()
+            .skip(1)
+            .take_while(|line| !line.starts_with("```"))
+            .collect::<Vec<_>>()
+            .join("\n")
     } else {
-        ("".to_string(), "No response".to_string(), response.to_string())
-    }
+        json_str.to_string()
+    };
+
+    let resp: response::Response = serde_json::from_str(&json_str)?;
+    Ok(resp)
 }
 
 async fn generate_command(
     provider_config: &ProviderConfig,
     query: &str,
-) -> Result<(String, String, String), Box<dyn std::error::Error>> {
+) -> Result<response::Response, Box<dyn std::error::Error>> {
     let provider_type = provider_config.provider.as_str();
     
     let response = match provider_type {
@@ -173,7 +134,7 @@ async fn generate_command(
 
             let agent = client
                 .agent(&provider_config.default_model)
-                .preamble(SYSTEM_PROMPT)
+                .preamble(prompts::COMMAND_GENERATOR)
                 .max_tokens(1024)
                 .build();
 
@@ -190,7 +151,7 @@ async fn generate_command(
 
             let agent = client
                 .agent(&provider_config.default_model)
-                .preamble(SYSTEM_PROMPT)
+                .preamble(prompts::COMMAND_GENERATOR)
                 .max_tokens(1024)
                 .build();
 
@@ -207,7 +168,7 @@ async fn generate_command(
 
             let agent = client
                 .agent(&provider_config.default_model)
-                .preamble(SYSTEM_PROMPT)
+                .preamble(prompts::COMMAND_GENERATOR)
                 .max_tokens(1024)
                 .build();
 
@@ -224,7 +185,7 @@ async fn generate_command(
 
             let agent = client
                 .agent(&provider_config.default_model)
-                .preamble(SYSTEM_PROMPT)
+                .preamble(prompts::COMMAND_GENERATOR)
                 .max_tokens(1024)
                 .build();
 
@@ -238,7 +199,7 @@ async fn generate_command(
 
             let agent = client
                 .agent(&provider_config.default_model)
-                .preamble(SYSTEM_PROMPT)
+                .preamble(prompts::COMMAND_GENERATOR)
                 .build();
 
             agent.prompt(query).await?
@@ -254,7 +215,7 @@ async fn generate_command(
 
             let agent = client
                 .agent(&provider_config.default_model)
-                .preamble(SYSTEM_PROMPT)
+                .preamble(prompts::COMMAND_GENERATOR)
                 .max_tokens(1024)
                 .build();
 
@@ -271,7 +232,7 @@ async fn generate_command(
 
             let agent = client
                 .agent(&provider_config.default_model)
-                .preamble(SYSTEM_PROMPT)
+                .preamble(prompts::COMMAND_GENERATOR)
                 .max_tokens(1024)
                 .build();
 
@@ -288,7 +249,7 @@ async fn generate_command(
 
             let agent = client
                 .agent(&provider_config.default_model)
-                .preamble(SYSTEM_PROMPT)
+                .preamble(prompts::COMMAND_GENERATOR)
                 .max_tokens(1024)
                 .build();
 
@@ -299,5 +260,5 @@ async fn generate_command(
         }
     };
     
-    Ok(parse_response(&response))
+    Ok(parse_response(&response)?)
 }

@@ -2084,6 +2084,7 @@ dependencies = [
  "dirs",
  "rig-core",
  "serde",
+ "serde_json",
  "termimad",
  "tokio",
  "toml",
