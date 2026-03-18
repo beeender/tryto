@@ -11,8 +11,11 @@ Return a JSON object with the following structure:
   "command_line": "the full command string",
   "pipeline": [
     {
-      "name": "command_name",
-      "args": ["arg1", "arg2"]
+      "executable": "command_name",
+      "description": "what this command does",
+      "args": [
+        {"name": "arg_value", "description": "what this arg does"}
+      ]
     }
   ]
 }
@@ -22,10 +25,14 @@ Return a JSON object with the following structure:
 
 1. The `command_line` should be a valid shell command that can be executed directly
 2. For piped commands, split each command in the `pipeline` array
-3. Each command in the pipeline has a `name` (the binary) and `args` (array of arguments)
+3. Each command has:
+   - `executable`: the binary name (e.g., "ls", "grep", "awk")
+   - `description`: brief description of what this command does
+   - `args`: array of arguments, each with `name` (the flag/value) and `description`
 4. Arguments should include the leading `-` or `--` for flags
-5. The command should be safe and executable in a standard shell (bash/zsh)
-6. If the request is ambiguous, provide the most common interpretation
+5. Descriptions should be concise (10-20 words)
+6. The command should be safe and executable in a standard shell (bash/zsh)
+7. If the request is ambiguous, provide the most common interpretation
 
 ## Examples
 
@@ -34,7 +41,14 @@ Return a JSON object with the following structure:
 {
   "command_line": "ls -la",
   "pipeline": [
-    {"name": "ls", "args": ["-la"]}
+    {
+      "executable": "ls",
+      "description": "List directory contents",
+      "args": [
+        {"name": "-l", "description": "Use long listing format with details"},
+        {"name": "-a", "description": "Show all files including hidden ones"}
+      ]
+    }
   ]
 }
 ```
@@ -44,7 +58,15 @@ Return a JSON object with the following structure:
 {
   "command_line": "find . -name '*.py'",
   "pipeline": [
-    {"name": "find", "args": [".", "-name", "*.py"]}
+    {
+      "executable": "find",
+      "description": "Search for files in directory hierarchy",
+      "args": [
+        {"name": ".", "description": "Start searching from current directory"},
+        {"name": "-name", "description": "Match files by name pattern"},
+        {"name": "'*.py'", "description": "Pattern to match Python files"}
+      ]
+    }
   ]
 }
 ```
@@ -54,7 +76,13 @@ Return a JSON object with the following structure:
 {
   "command_line": "git status",
   "pipeline": [
-    {"name": "git", "args": ["status"]}
+    {
+      "executable": "git",
+      "description": "Version control system",
+      "args": [
+        {"name": "status", "description": "Show working tree status"}
+      ]
+    }
   ]
 }
 ```
@@ -64,8 +92,21 @@ Return a JSON object with the following structure:
 {
   "command_line": "ls -lS | awk 'NR==2 {print $5 + 1}'",
   "pipeline": [
-    {"name": "ls", "args": ["-lS"]},
-    {"name": "awk", "args": ["NR==2 {print $5 + 1}"]}
+    {
+      "executable": "ls",
+      "description": "List directory contents",
+      "args": [
+        {"name": "-l", "description": "Use long listing format"},
+        {"name": "-S", "description": "Sort by file size, largest first"}
+      ]
+    },
+    {
+      "executable": "awk",
+      "description": "Pattern scanning and processing",
+      "args": [
+        {"name": "'NR==2 {print $5 + 1}'", "description": "Select 2nd line, extract size field, add 1"}
+      ]
+    }
   ]
 }
 ```

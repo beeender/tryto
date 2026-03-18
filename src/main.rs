@@ -60,12 +60,12 @@ async fn main() {
         eprintln!("Debug: Command written to {}", log_path.display());
     }
 
-    // Show the pipeline info, then the command, and ask for confirmation
+    // Show the pipeline info with descriptions
     println!("\nCommand pipeline:");
     for (i, cmd) in resp.pipeline.iter().enumerate() {
-        println!("  [{}] {}", i + 1, cmd.name);
+        println!("  [{}] {} - {}", i + 1, cmd.executable, cmd.description);
         for arg in &cmd.args {
-            println!("      - {}", arg);
+            println!("      {:<15} {}", arg.name, arg.description);
         }
     }
     println!("\n$ {}", resp.command_line);
