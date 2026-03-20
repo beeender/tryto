@@ -11,3 +11,5 @@ toml = "0.8"
 dirs = "6.0"
 tokio = { version = "1", features = ["full"] }
 termimad = "0.31"
+indicatif = "0.17"
+owo-colors = "4.0"

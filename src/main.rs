@@ -3,9 +3,11 @@ mod prompts;
 mod response;
 
 use config::{Config, ProviderConfig};
+use indicatif::{ProgressBar, ProgressStyle};
 use rig::client::{CompletionClient, ProviderClient};
 use rig::completion::Prompt;
 use std::env;
+use std::time::Duration;
 
 #[tokio::main]
 async fn main() {
@@ -114,9 +116,18 @@ async fn generate_command(
     provider_config: &ProviderConfig,
     query: &str,
 ) -> Result<response::Response, Box<dyn std::error::Error>> {
+    let spinner = ProgressBar::new_spinner();
+    spinner.set_style(
+        ProgressStyle::default_spinner()
+            .template("{spinner:.cyan} {msg}")
+            .unwrap(),
+    );
+    spinner.set_message("Generating command...");
+    spinner.enable_steady_tick(Duration::from_millis(100));
+
     let provider_type = provider_config.provider.as_str();
-    
-    let response = match provider_type {
+
+    let result = match provider_type {
         "anthropic" => {
             use rig::providers::anthropic;
             
@@ -138,7 +149,7 @@ async fn generate_command(
                 .max_tokens(1024)
                 .build();
 
-            agent.prompt(query).await?
+            agent.prompt(query).await
         }
         "openai" => {
             use rig::providers::openai;
@@ -155,7 +166,7 @@ async fn generate_command(
                 .max_tokens(1024)
                 .build();
 
-            agent.prompt(query).await?
+            agent.prompt(query).await
         }
         "deepseek" => {
             use rig::providers::deepseek;
@@ -172,7 +183,7 @@ async fn generate_command(
                 .max_tokens(1024)
                 .build();
 
-            agent.prompt(query).await?
+            agent.prompt(query).await
         }
         "gemini" => {
             use rig::providers::gemini;
@@ -189,7 +200,7 @@ async fn generate_command(
                 .max_tokens(1024)
                 .build();
 
-            agent.prompt(query).await?
+            agent.prompt(query).await
         }
         "ollama" => {
             use rig::providers::ollama;
@@ -202,7 +213,7 @@ async fn generate_command(
                 .preamble(prompts::COMMAND_GENERATOR)
                 .build();
 
-            agent.prompt(query).await?
+            agent.prompt(query).await
         }
         "xai" => {
             use rig::providers::xai;
@@ -219,7 +230,7 @@ async fn generate_command(
                 .max_tokens(1024)
                 .build();
 
-            agent.prompt(query).await?
+            agent.prompt(query).await
         }
         "perplexity" => {
             use rig::providers::perplexity;
@@ -236,7 +247,7 @@ async fn generate_command(
                 .max_tokens(1024)
                 .build();
 
-            agent.prompt(query).await?
+            agent.prompt(query).await
         }
         "groq" => {
             use rig::providers::groq;
@@ -253,12 +264,15 @@ async fn generate_command(
                 .max_tokens(1024)
                 .build();
 
-            agent.prompt(query).await?
+            agent.prompt(query).await
         }
         _ => {
+            spinner.finish_and_clear();
             return Err(format!("Unknown provider: {}", provider_type).into());
         }
     };
-    
+
+    spinner.finish_and_clear();
+    let response = result?;
     Ok(parse_response(&response)?)
 }
