@@ -1,6 +1,7 @@
 mod config;
 mod prompts;
 mod response;
+mod theme;
 
 use config::{Config, ProviderConfig};
 use indicatif::{ProgressBar, ProgressStyle};
@@ -8,15 +9,24 @@ use rig::client::{CompletionClient, ProviderClient};
 use rig::completion::Prompt;
 use std::env;
 use std::time::Duration;
+use theme::Theme;
 
 #[tokio::main]
 async fn main() {
+    let theme = Theme::default();
+
     // Collect all arguments after the program name
     let args: Vec<String> = env::args().skip(1).collect();
-    
+
     if args.is_empty() {
-        eprintln!("Usage: tryto <natural language description of what you want to do>");
-        eprintln!("Example: tryto list all files modified in the last 24 hours");
+        eprintln!(
+            "{}: tryto <natural language description>",
+            theme.header("usage")
+        );
+        eprintln!(
+            "{}: tryto list files modified in the last 24 hours",
+            theme.hint("example")
+        );
         std::process::exit(1);
     }
 
@@ -27,8 +37,11 @@ async fn main() {
     let config = match Config::load_default() {
         Ok(cfg) => cfg,
         Err(e) => {
-            eprintln!("Failed to load configuration: {}", e);
-            eprintln!("Make sure ~/.config/tryto/config.toml exists");
+            eprintln!("{}: {}", theme.error("error"), e);
+            eprintln!(
+                "{}: make sure ~/.config/tryto/config.toml exists",
+                theme.hint("hint")
+            );
             std::process::exit(1);
         }
     };
@@ -38,7 +51,8 @@ async fn main() {
         Some(provider) => provider,
         None => {
             eprintln!(
-                "Default provider '{}' not found in configuration",
+                "{}: default provider '{}' not found in configuration",
+                theme.error("error"),
                 config.default_provider
             );
             std::process::exit(1);
@@ -49,7 +63,7 @@ async fn main() {
     let resp = match generate_command(provider_config, &query).await {
         Ok(result) => result,
         Err(e) => {
-            eprintln!("Failed to generate command: {}", e);
+            eprintln!("{}: {}", theme.error("error"), e);
             std::process::exit(1);
         }
     };
@@ -57,27 +71,37 @@ async fn main() {
     // Write command line to tmp log file for debugging
     let log_path = std::path::PathBuf::from("/tmp/tryto_debug.log");
     if let Err(e) = std::fs::write(&log_path, &resp.command_line) {
-        eprintln!("Warning: Failed to write debug log: {}", e);
-    } else {
-        eprintln!("Debug: Command written to {}", log_path.display());
+        eprintln!(
+            "{}: failed to write debug log: {}",
+            theme.warning("warning"),
+            e
+        );
     }
 
     // Show the pipeline info with descriptions
-    println!("\nCommand pipeline:");
-    for (i, cmd) in resp.pipeline.iter().enumerate() {
-        println!("  [{}] {} - {}", i + 1, cmd.executable, cmd.description);
+    resp.pipeline.iter().for_each(|cmd| {
+        println!(
+            "{} - {}",
+            theme.executable(&cmd.executable),
+            theme.description(&cmd.description)
+        );
         for arg in &cmd.args {
-            println!("      {:<15} {}", arg.name, arg.description);
+            println!(
+                "  {} {}",
+                theme.argument(format!("{:<4}", arg.name)),
+                theme.description(&arg.description)
+            );
         }
-    }
-    println!("\n$ {}", resp.command_line);
-    print!("\nExecute? [Y/n] ");
+        println!();
+    });
+    println!("$ {}", theme.command_line(&resp.command_line));
+    print!("\n{} ", theme.prompt("Execute? [Y/n]"));
     use std::io::Write;
     std::io::stdout().flush().unwrap();
-    
+
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).unwrap();
-    
+
     let input = input.trim().to_lowercase();
     if input.is_empty() || input == "y" || input == "yes" {
         // Execute the command
@@ -89,7 +113,7 @@ async fn main() {
 
         std::process::exit(status.code().unwrap_or(1));
     } else {
-        println!("Command cancelled");
+        println!("{}", theme.hint("command cancelled"));
     }
 }
 
@@ -130,10 +154,12 @@ async fn generate_command(
     let result = match provider_type {
         "anthropic" => {
             use rig::providers::anthropic;
-            
-            let api_key = provider_config.api_key.as_deref()
+
+            let api_key = provider_config
+                .api_key
+                .as_deref()
                 .ok_or("API key is required for Anthropic provider")?;
-            
+
             let client = if let Some(ref base_url) = provider_config.base_url {
                 anthropic::Client::builder()
                     .api_key(api_key)
@@ -153,7 +179,7 @@ async fn generate_command(
         }
         "openai" => {
             use rig::providers::openai;
-            
+
             let client = if let Some(ref api_key) = provider_config.api_key {
                 openai::Client::new(api_key)?
             } else {
@@ -170,7 +196,7 @@ async fn generate_command(
         }
         "deepseek" => {
             use rig::providers::deepseek;
-            
+
             let client = if let Some(ref api_key) = provider_config.api_key {
                 deepseek::Client::new(api_key)?
             } else {
@@ -187,7 +213,7 @@ async fn generate_command(
         }
         "gemini" => {
             use rig::providers::gemini;
-            
+
             let client = if let Some(ref api_key) = provider_config.api_key {
                 gemini::Client::new(api_key)?
             } else {
@@ -203,9 +229,9 @@ async fn generate_command(
             agent.prompt(query).await
         }
         "ollama" => {
-            use rig::providers::ollama;
             use rig::client::Nothing;
-            
+            use rig::providers::ollama;
+
             let client = ollama::Client::new(Nothing)?;
 
             let agent = client
@@ -217,7 +243,7 @@ async fn generate_command(
         }
         "xai" => {
             use rig::providers::xai;
-            
+
             let client = if let Some(ref api_key) = provider_config.api_key {
                 xai::Client::new(api_key)?
             } else {
@@ -234,7 +260,7 @@ async fn generate_command(
         }
         "perplexity" => {
             use rig::providers::perplexity;
-            
+
             let client = if let Some(ref api_key) = provider_config.api_key {
                 perplexity::Client::new(api_key)?
             } else {
@@ -251,7 +277,7 @@ async fn generate_command(
         }
         "groq" => {
             use rig::providers::groq;
-            
+
             let client = if let Some(ref api_key) = provider_config.api_key {
                 groq::Client::new(api_key)?
             } else {
