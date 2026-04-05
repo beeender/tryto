@@ -50,13 +50,31 @@ impl Config {
     pub fn get_default_provider(&self) -> Option<&ProviderConfig> {
         self.providers.get(&self.default_provider)
     }
+
+    /// Save configuration to a TOML file
+    pub fn save_to_file<P: AsRef<Path>>(&self, path: P) -> Result<(), ConfigError> {
+        let toml_str = toml::to_string_pretty(self)?;
+        if let Some(parent) = path.as_ref().parent() {
+            fs::create_dir_all(parent)?;
+        }
+        fs::write(path, toml_str)?;
+        Ok(())
+    }
+
+    /// Save configuration to default location (~/.config/tryto/config.toml)
+    pub fn save_default(&self) -> Result<(), ConfigError> {
+        let home = dirs::home_dir().ok_or(ConfigError::HomeDirNotFound)?;
+        let config_path = home.join(".config").join("tryto").join("config.toml");
+        self.save_to_file(config_path)
+    }
 }
 
 /// Configuration errors
 #[derive(Debug)]
 pub enum ConfigError {
     Io(std::io::Error),
-    Toml(toml::de::Error),
+    TomlDe(toml::de::Error),
+    TomlSer(toml::ser::Error),
     HomeDirNotFound,
 }
 
@@ -64,7 +82,8 @@ impl std::fmt::Display for ConfigError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ConfigError::Io(e) => write!(f, "IO error: {}", e),
-            ConfigError::Toml(e) => write!(f, "TOML parse error: {}", e),
+            ConfigError::TomlDe(e) => write!(f, "TOML parse error: {}", e),
+            ConfigError::TomlSer(e) => write!(f, "TOML serialize error: {}", e),
             ConfigError::HomeDirNotFound => write!(f, "Could not find home directory"),
         }
     }
@@ -74,7 +93,8 @@ impl std::error::Error for ConfigError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
             ConfigError::Io(e) => Some(e),
-            ConfigError::Toml(e) => Some(e),
+            ConfigError::TomlDe(e) => Some(e),
+            ConfigError::TomlSer(e) => Some(e),
             ConfigError::HomeDirNotFound => None,
         }
     }
@@ -88,7 +108,13 @@ impl From<std::io::Error> for ConfigError {
 
 impl From<toml::de::Error> for ConfigError {
     fn from(e: toml::de::Error) -> Self {
-        ConfigError::Toml(e)
+        ConfigError::TomlDe(e)
+    }
+}
+
+impl From<toml::ser::Error> for ConfigError {
+    fn from(e: toml::ser::Error) -> Self {
+        ConfigError::TomlSer(e)
     }
 }
 

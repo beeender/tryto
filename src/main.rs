@@ -1,40 +1,70 @@
 mod config;
 mod prompts;
+mod providers;
 mod response;
+mod setup;
 mod theme;
 
-use config::{Config, ProviderConfig};
+use clap::{Parser, Subcommand};
+use config::ProviderConfig;
 use indicatif::{ProgressBar, ProgressStyle};
-use rig::client::{CompletionClient, ProviderClient};
-use rig::completion::Prompt;
-use std::env;
 use std::time::Duration;
 use theme::Theme;
 
+#[derive(Parser)]
+#[command(name = "tryto")]
+#[command(about = "Natural language to shell command converter")]
+struct Cli {
+    #[command(subcommand)]
+    command: Option<Commands>,
+
+    /// Natural language query (when no subcommand is used)
+    #[arg(trailing_var_arg = true)]
+    query: Vec<String>,
+}
+
+#[derive(Subcommand)]
+enum Commands {
+    /// Interactive setup wizard for configuring providers
+    Setup,
+}
+
 #[tokio::main]
 async fn main() {
+    let cli = Cli::parse();
     let theme = Theme::default();
 
-    // Collect all arguments after the program name
-    let args: Vec<String> = env::args().skip(1).collect();
+    match cli.command {
+        Some(Commands::Setup) => {
+            if let Err(e) = setup::run_setup(&theme) {
+                eprintln!("{}: {}", theme.error("setup failed"), e);
+                std::process::exit(1);
+            }
+        }
+        None => {
+            // Default behavior: generate command from natural language
+            if cli.query.is_empty() {
+                eprintln!(
+                    "{}: tryto <natural language description>",
+                    theme.header("usage")
+                );
+                eprintln!(
+                    "{}: tryto list files modified in the last 24 hours",
+                    theme.hint("example")
+                );
+                eprintln!("\n{}: tryto setup", theme.hint("or run setup wizard"));
+                std::process::exit(1);
+            }
 
-    if args.is_empty() {
-        eprintln!(
-            "{}: tryto <natural language description>",
-            theme.header("usage")
-        );
-        eprintln!(
-            "{}: tryto list files modified in the last 24 hours",
-            theme.hint("example")
-        );
-        std::process::exit(1);
+            let query = cli.query.join(" ");
+            run_generate(&theme, &query).await;
+        }
     }
+}
 
-    // Join arguments into a single query string
-    let query = args.join(" ");
-
+async fn run_generate(theme: &Theme, query: &str) {
     // Load configuration
-    let config = match Config::load_default() {
+    let config = match config::Config::load_default() {
         Ok(cfg) => cfg,
         Err(e) => {
             eprintln!("{}: {}", theme.error("error"), e);
@@ -42,6 +72,7 @@ async fn main() {
                 "{}: make sure ~/.config/tryto/config.toml exists",
                 theme.hint("hint")
             );
+            eprintln!("{}: tryto setup", theme.hint("run setup wizard"));
             std::process::exit(1);
         }
     };
@@ -60,7 +91,7 @@ async fn main() {
     };
 
     // Generate command using AI
-    let resp = match generate_command(provider_config, &query).await {
+    let resp = match generate_command(provider_config, query).await {
         Ok(result) => result,
         Err(e) => {
             eprintln!("{}: {}", theme.error("error"), e);
@@ -136,169 +167,44 @@ fn parse_response(response: &str) -> Result<response::Response, Box<dyn std::err
     Ok(resp)
 }
 
-async fn generate_command(
-    provider_config: &ProviderConfig,
-    query: &str,
-) -> Result<response::Response, Box<dyn std::error::Error>> {
+/// Create a spinner for long-running operations
+fn create_spinner(msg: &str) -> ProgressBar {
     let spinner = ProgressBar::new_spinner();
     spinner.set_style(
         ProgressStyle::default_spinner()
             .template("{spinner:.cyan} {msg}")
             .unwrap(),
     );
-    spinner.set_message("Generating command...");
+    spinner.set_message(msg.to_string());
     spinner.enable_steady_tick(Duration::from_millis(100));
+    spinner
+}
 
-    let provider_type = provider_config.provider.as_str();
+/// Generate command using the provider from configuration
+async fn generate_command(
+    provider_config: &ProviderConfig,
+    query: &str,
+) -> Result<response::Response, Box<dyn std::error::Error>> {
+    let spinner = create_spinner("Generating command...");
 
-    let result = match provider_type {
-        "anthropic" => {
-            use rig::providers::anthropic;
-
-            let api_key = provider_config
-                .api_key
-                .as_deref()
-                .ok_or("API key is required for Anthropic provider")?;
-
-            let client = if let Some(ref base_url) = provider_config.base_url {
-                anthropic::Client::builder()
-                    .api_key(api_key)
-                    .base_url(base_url)
-                    .build()?
-            } else {
-                anthropic::Client::new(api_key)?
-            };
-
-            let agent = client
-                .agent(&provider_config.default_model)
-                .preamble(prompts::COMMAND_GENERATOR)
-                .max_tokens(1024)
-                .build();
-
-            agent.prompt(query).await
-        }
-        "openai" => {
-            use rig::providers::openai;
-
-            let client = if let Some(ref api_key) = provider_config.api_key {
-                openai::Client::new(api_key)?
-            } else {
-                openai::Client::from_env()
-            };
-
-            let agent = client
-                .agent(&provider_config.default_model)
-                .preamble(prompts::COMMAND_GENERATOR)
-                .max_tokens(1024)
-                .build();
-
-            agent.prompt(query).await
-        }
-        "deepseek" => {
-            use rig::providers::deepseek;
-
-            let client = if let Some(ref api_key) = provider_config.api_key {
-                deepseek::Client::new(api_key)?
-            } else {
-                deepseek::Client::from_env()
-            };
-
-            let agent = client
-                .agent(&provider_config.default_model)
-                .preamble(prompts::COMMAND_GENERATOR)
-                .max_tokens(1024)
-                .build();
-
-            agent.prompt(query).await
-        }
-        "gemini" => {
-            use rig::providers::gemini;
-
-            let client = if let Some(ref api_key) = provider_config.api_key {
-                gemini::Client::new(api_key)?
-            } else {
-                gemini::Client::from_env()
-            };
-
-            let agent = client
-                .agent(&provider_config.default_model)
-                .preamble(prompts::COMMAND_GENERATOR)
-                .max_tokens(1024)
-                .build();
-
-            agent.prompt(query).await
-        }
-        "ollama" => {
-            use rig::client::Nothing;
-            use rig::providers::ollama;
-
-            let client = ollama::Client::new(Nothing)?;
-
-            let agent = client
-                .agent(&provider_config.default_model)
-                .preamble(prompts::COMMAND_GENERATOR)
-                .build();
-
-            agent.prompt(query).await
-        }
-        "xai" => {
-            use rig::providers::xai;
-
-            let client = if let Some(ref api_key) = provider_config.api_key {
-                xai::Client::new(api_key)?
-            } else {
-                xai::Client::from_env()
-            };
-
-            let agent = client
-                .agent(&provider_config.default_model)
-                .preamble(prompts::COMMAND_GENERATOR)
-                .max_tokens(1024)
-                .build();
-
-            agent.prompt(query).await
-        }
-        "perplexity" => {
-            use rig::providers::perplexity;
-
-            let client = if let Some(ref api_key) = provider_config.api_key {
-                perplexity::Client::new(api_key)?
-            } else {
-                perplexity::Client::from_env()
-            };
-
-            let agent = client
-                .agent(&provider_config.default_model)
-                .preamble(prompts::COMMAND_GENERATOR)
-                .max_tokens(1024)
-                .build();
-
-            agent.prompt(query).await
-        }
-        "groq" => {
-            use rig::providers::groq;
-
-            let client = if let Some(ref api_key) = provider_config.api_key {
-                groq::Client::new(api_key)?
-            } else {
-                groq::Client::from_env()
-            };
-
-            let agent = client
-                .agent(&provider_config.default_model)
-                .preamble(prompts::COMMAND_GENERATOR)
-                .max_tokens(1024)
-                .build();
-
-            agent.prompt(query).await
-        }
-        _ => {
+    // Initialize provider from config
+    let provider = match providers::init(provider_config) {
+        Ok(p) => p,
+        Err(e) => {
             spinner.finish_and_clear();
-            return Err(format!("Unknown provider: {}", provider_type).into());
+            return Err(Box::new(e));
+        }
+    };
+
+    // Generate response
+    let response = match provider.generate(query).await {
+        Ok(r) => r,
+        Err(e) => {
+            spinner.finish_and_clear();
+            return Err(Box::new(e));
         }
     };
 
     spinner.finish_and_clear();
-    let response = result?;
-    Ok(parse_response(&response)?)
+    parse_response(&response)
 }

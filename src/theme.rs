@@ -14,6 +14,7 @@ pub struct Theme {
     // Output elements
     pub header: ColorDef,
     pub command_line: ColorDef,
+    pub step_number: ColorDef,
 
     // Interaction
     pub prompt: ColorDef,
@@ -21,6 +22,7 @@ pub struct Theme {
     // Status
     pub error: ColorDef,
     pub warning: ColorDef,
+    pub success: ColorDef,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -41,9 +43,11 @@ impl Theme {
             hint: ColorDef::dimmed_italic(),
             header: ColorDef::cyan_bold(),
             command_line: ColorDef::new("green"),
+            step_number: ColorDef::blue_bold(),
             prompt: ColorDef::new("blue"),
             error: ColorDef::red_bold(),
             warning: ColorDef::new("yellow"),
+            success: ColorDef::new("green"),
         }
     }
 
@@ -81,6 +85,14 @@ impl Theme {
 
     pub fn warning(&self, s: impl std::fmt::Display) -> String {
         self.style(&self.warning, s)
+    }
+
+    pub fn success(&self, s: impl std::fmt::Display) -> String {
+        self.style(&self.success, s)
+    }
+
+    pub fn step_number(&self, s: impl std::fmt::Display) -> String {
+        self.style(&self.step_number, s)
     }
 
     fn style(&self, def: &ColorDef, s: impl std::fmt::Display) -> String {
@@ -145,6 +157,16 @@ impl ColorDef {
     fn red_bold() -> Self {
         Self {
             fg: Some("red".to_string()),
+            bg: None,
+            bold: true,
+            italic: false,
+            dimmed: false,
+        }
+    }
+
+    fn blue_bold() -> Self {
+        Self {
+            fg: Some("blue".to_string()),
             bg: None,
             bold: true,
             italic: false,

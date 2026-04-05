@@ -1,0 +1,91 @@
+[[provider]]
+id = "anthropic"
+protocol = "anthropic"
+default_model = "claude-3-5-sonnet-20241022"
+models = [
+    "claude-3-5-sonnet-20241022",
+    "claude-3-opus-20240229",
+    "claude-3-sonnet-20240229",
+    "claude-3-haiku-20240307",
+]
+description = "Anthropic Claude models"
+
+[[provider]]
+id = "openai"
+protocol = "openai"
+default_model = "gpt-4o"
+models = ["gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"]
+description = "OpenAI GPT models"
+
+[[provider]]
+id = "deepseek"
+protocol = "openai"
+default_base_url = "https://api.deepseek.com/v1"
+default_model = "deepseek-chat"
+models = ["deepseek-chat", "deepseek-coder"]
+description = "DeepSeek models"
+
+[[provider]]
+id = "gemini"
+protocol = "openai"
+default_base_url = "https://generativelanguage.googleapis.com/v1beta"
+default_model = "gemini-1.5-pro-latest"
+models = ["gemini-1.5-pro-latest", "gemini-1.5-flash-latest"]
+description = "Google Gemini models"
+
+[[provider]]
+id = "ollama"
+protocol = "ollama"
+default_base_url = "http://localhost:11434"
+default_model = "llama3.1"
+models = ["llama3.1", "llama3", "codellama", "mistral"]
+description = "Local Ollama instance (no API key needed)"
+
+[[provider]]
+id = "xai"
+protocol = "openai"
+default_base_url = "https://api.x.ai/v1"
+default_model = "grok-beta"
+models = ["grok-beta"]
+description = "XAI/Grok models"
+
+[[provider]]
+id = "perplexity"
+protocol = "openai"
+default_base_url = "https://api.perplexity.ai/v1"
+default_model = "llama-3.1-sonar-large-128k-online"
+models = [
+    "llama-3.1-sonar-small-128k-online",
+    "llama-3.1-sonar-large-128k-online",
+    "llama-3.1-sonar-huge-128k-online",
+]
+description = "Perplexity models"
+
+[[provider]]
+id = "groq"
+protocol = "openai"
+default_base_url = "https://api.groq.com/openai/v1"
+default_model = "llama-3.1-70b-versatile"
+models = [
+    "llama-3.1-70b-versatile",
+    "llama-3.1-8b-instant",
+    "mixtral-8x7b-32768",
+    "gemma-7b-it",
+]
+description = "Groq LPU inference"
+
+[[provider]]
+id = "moonshot"
+protocol = "openai"
+default_base_url = "https://api.moonshot.cn/v1"
+default_model = "kimi-k2"
+models = ["kimi-k2", "kimi-k2.5", "kimi-k2-thinking"]
+description = "Moonshot AI (Kimi models)"
+
+[[provider]]
+id = "kimi"
+protocol = "anthropic"
+default_base_url = "https://api.kimi.com/coding"
+default_model = "kimi-k2-thinking"
+models = ["kimi-k2-thinking", "k2p5"]
+description = "Kimi for Coding (kimi.com)"
