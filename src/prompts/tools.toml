@@ -1,0 +1,242 @@
+# Modern tools to detect in PATH
+# These will be listed in the prompt so LLM knows to prefer them over traditional alternatives
+
+# Fast, user-friendly alternative to find - replaces: find
+[[tool]]
+id = "fd"
+
+# fd on Debian/Ubuntu (alternative package name) - replaces: find
+[[tool]]
+id = "fdfind"
+
+# ripgrep - fast grep with git-aware defaults - replaces: grep
+[[tool]]
+id = "rg"
+
+# the_silver_searcher - fast grep alternative - replaces: grep
+[[tool]]
+id = "ag"
+
+# grep-like source code searcher - replaces: grep
+[[tool]]
+id = "ack"
+
+# Syntax-highlighting cat clone - replaces: cat
+[[tool]]
+id = "bat"
+
+# Modern ls with icons and git support - replaces: ls
+[[tool]]
+id = "eza"
+
+# Modern ls with icons - replaces: ls
+[[tool]]
+id = "lsd"
+
+# Smart cd command with learning - replaces: cd
+[[tool]]
+id = "zoxide"
+
+# Fuzzy finder for interactive filtering - replaces: select/menu
+[[tool]]
+id = "fzf"
+
+# skim - Rust fuzzy finder like fzf - replaces: select/menu
+[[tool]]
+id = "sk"
+
+# Intuitive sed alternative - replaces: sed
+[[tool]]
+id = "sd"
+
+# Human-friendly alternative to cut - replaces: cut
+[[tool]]
+id = "choose"
+
+# Command-line JSON processor - replaces: grep/awk for JSON
+[[tool]]
+id = "jq"
+
+# Command-line YAML processor - replaces: grep/awk for YAML
+[[tool]]
+id = "yq"
+
+# Command-line XML processor - replaces: grep/awk for XML
+[[tool]]
+id = "xq"
+
+# Friendly HTTP client (like HTTPie) - replaces: curl
+[[tool]]
+id = "xh"
+
+# User-friendly HTTP client - replaces: curl
+[[tool]]
+id = "httpie"
+
+# curl with HTTPie-like syntax - replaces: curl
+[[tool]]
+id = "curlie"
+
+# Modern wget with parallel downloads - replaces: wget
+[[tool]]
+id = "wget2"
+
+# Syntax-highlighting pager for git/diff - replaces: diff
+[[tool]]
+id = "delta"
+
+# Structural diff tool - replaces: diff
+[[tool]]
+id = "difftastic"
+
+# Better diff highlighting - replaces: diff
+[[tool]]
+id = "diff-so-fancy"
+
+# Visual disk usage analyzer - replaces: du
+[[tool]]
+id = "dust"
+
+# Disk usage free utility - replaces: df
+[[tool]]
+id = "duf"
+
+# NCurses disk usage - replaces: du
+[[tool]]
+id = "ncdu"
+
+# Modern ps replacement - replaces: ps
+[[tool]]
+id = "procs"
+
+# Bottom - graphical system monitor - replaces: top
+[[tool]]
+id = "btm"
+
+# System monitor (full name of btm) - replaces: top
+[[tool]]
+id = "bottom"
+
+# Node.js system monitor - replaces: top
+[[tool]]
+id = "gtop"
+
+# Interactive process viewer - replaces: top
+[[tool]]
+id = "htop"
+
+# GitHub CLI - replaces: curl to GitHub API
+[[tool]]
+id = "gh"
+
+# GitLab CLI - replaces: curl to GitLab API
+[[tool]]
+id = "glab"
+
+# Container top - container metrics - replaces: docker stats
+[[tool]]
+id = "ctop"
+
+# Kubernetes terminal UI - replaces: kubectl
+[[tool]]
+id = "k9s"
+
+# Fast kubectl context switching - replaces: kubectl config
+[[tool]]
+id = "kubectx"
+
+# Fast kubectl namespace switching - replaces: kubectl config
+[[tool]]
+id = "kubens"
+
+# Kubernetes package manager - replaces: kubectl apply
+[[tool]]
+id = "helm"
+
+# Pipe viewer - progress for pipes - replaces: cat | wc
+[[tool]]
+id = "pv"
+
+# Soak up stdin and write to file - replaces: tee
+[[tool]]
+id = "sponge"
+
+# Modern watch alternative - replaces: watch
+[[tool]]
+id = "viddy"
+
+# Run commands when files change - replaces: watch
+[[tool]]
+id = "entr"
+
+# GNU parallel - execute jobs in parallel - replaces: xargs
+[[tool]]
+id = "parallel"
+
+# Command-line benchmarking tool - replaces: time
+[[tool]]
+id = "hyperfine"
+
+# Count lines of code - replaces: cloc
+[[tool]]
+id = "tokei"
+
+# Network bandwidth monitor - replaces: iftop
+[[tool]]
+id = "bandwhich"
+
+# Ping with graph - replaces: ping
+[[tool]]
+id = "gping"
+
+# Modern DNS client - replaces: dig
+[[tool]]
+id = "dog"
+
+# DNS client (similar to dog) - replaces: dig
+[[tool]]
+id = "doggo"
+
+# DNS client - replaces: dig
+[[tool]]
+id = "sdns"
+
+# Magical shell history - replaces: history
+[[tool]]
+id = "atuin"
+
+# Fly through shell history - replaces: history
+[[tool]]
+id = "mcfly"
+
+# Terminal multiplexer (like tmux) - replaces: tmux/screen
+[[tool]]
+id = "zellij"
+
+# Terminal multiplexer - replaces: screen
+[[tool]]
+id = "tmux"
+
+# Interactive tree view - replaces: tree
+[[tool]]
+id = "broot"
+
+# Archive tool (aunpack, apack, etc) - replaces: tar/unzip
+[[tool]]
+id = "atool"
+
+# Fast compression - replaces: gzip
+[[tool]]
+id = "zstd"
+
+# Parallel xz - replaces: xz
+[[tool]]
+id = "pixz"
+
+# Parallel gzip - replaces: gzip
+[[tool]]
+id = "pigz"
+
+# Parallel bzip2 - replaces: bzip2
+[[tool]]
+id = "pbzip2"
