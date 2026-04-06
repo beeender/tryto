@@ -1,0 +1,8 @@
+format_strings = true
+group_imports = "StdExternalCrate"
+hard_tabs = false
+imports_granularity = "Module"
+max_width = 100
+reorder_impl_items = true
+reorder_imports = true
+wrap_comments = true

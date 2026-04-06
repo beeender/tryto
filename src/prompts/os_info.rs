@@ -70,13 +70,8 @@ fn detect() -> OsInfo {
 pub fn build_context() -> String {
     let info = detect();
     format!(
-        "## Platform Context\n\n\
-        Operating System: {}\n\
-        Shell: {}\n\
-        Tool Flavor: {}\n\n\
-        Important: Generate commands compatible with this platform.\n",
-        info.os,
-        info.shell,
-        info.tool_flavor
+        "## Platform Context\n\nOperating System: {}\nShell: {}\nTool Flavor: {}\n\nImportant: \
+         Generate commands compatible with this platform.\n",
+        info.os, info.shell, info.tool_flavor
     )
 }

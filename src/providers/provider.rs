@@ -1,8 +1,9 @@
-use crate::config::ProviderConfig;
-use crate::prompts;
-use crate::providers::{select, Error, ProviderInner, ProviderProtocol};
 use rig::client::CompletionClient;
 use rig::completion::Prompt;
+
+use crate::config::ProviderConfig;
+use crate::prompts;
+use crate::providers::{Error, ProviderInner, ProviderProtocol, select};
 
 /// Anthropic requires max_token
 /// - 1024 is generous; most responses will be much smaller
@@ -17,8 +18,8 @@ pub struct Provider {
 impl Provider {
     /// Initialize a provider from configuration.
     pub fn init(config: &ProviderConfig) -> Result<Self, Error> {
-        let def =
-            select(&config.provider).ok_or_else(|| Error::UnknownProvider(config.provider.clone()))?;
+        let def = select(&config.provider)
+            .ok_or_else(|| Error::UnknownProvider(config.provider.clone()))?;
 
         let inner = match def.protocol {
             ProviderProtocol::Openai => {
@@ -86,10 +87,7 @@ impl Provider {
                 agent.prompt(query).await?
             }
             ProviderInner::Ollama(client) => {
-                let agent = client
-                    .agent(&self.model)
-                    .preamble(&preamble)
-                    .build();
+                let agent = client.agent(&self.model).preamble(&preamble).build();
                 agent.prompt(query).await?
             }
         };

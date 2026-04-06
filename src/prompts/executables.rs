@@ -1,6 +1,5 @@
 use std::collections::HashSet;
-use std::env;
-use std::fs;
+use std::{env, fs};
 
 /// Tool definition from tools.toml - only id is used at runtime
 #[derive(Debug, Clone, serde::Deserialize)]
@@ -79,10 +78,7 @@ pub fn scan_modern_tools() -> Vec<String> {
     }
 
     // Return in consistent order (same as TOML file)
-    tool_ids
-        .into_iter()
-        .filter(|t| found.contains(t))
-        .collect()
+    tool_ids.into_iter().filter(|t| found.contains(t)).collect()
 }
 
 /// Build a summary of available modern tools for the prompt.
@@ -95,10 +91,9 @@ pub fn build_tools_context() -> String {
 
     let tools_list = tools.join(", ");
     format!(
-        "\n## Available Modern Tools\n\n\
-        The following modern alternatives are available and preferred when appropriate:\n\
-        {}\n\n\
-        Prefer these over traditional tools (e.g., use 'fd' over 'find', 'rg' over 'grep').\n",
+        "\n## Available Modern Tools\n\nThe following modern alternatives are available and \
+         preferred when appropriate:\n{}\n\nPrefer these over traditional tools (e.g., use 'fd' \
+         over 'find', 'rg' over 'grep').\n",
         tools_list
     )
 }

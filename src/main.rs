@@ -5,10 +5,11 @@ mod response;
 mod setup;
 mod ui;
 
+use std::time::Duration;
+
 use clap::{Parser, Subcommand};
 use config::ProviderConfig;
 use indicatif::{ProgressBar, ProgressStyle};
-use std::time::Duration;
 use ui::{Theme, show};
 
 #[derive(Parser)]

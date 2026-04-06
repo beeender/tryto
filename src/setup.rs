@@ -1,8 +1,9 @@
+use std::collections::HashMap;
+use std::io::{self, Write};
+
 use crate::config::{Config, ProviderConfig};
 use crate::providers;
 use crate::ui::Theme;
-use std::collections::HashMap;
-use std::io::{self, Write};
 
 pub fn run_setup(theme: &Theme) -> Result<(), Box<dyn std::error::Error>> {
     println!("\n{}", theme.header("tryto setup wizard"));
@@ -173,7 +174,8 @@ fn read_base_url(
     theme: &Theme,
     provider_def: &providers::ProviderDefinition,
 ) -> Result<Option<String>, Box<dyn std::error::Error>> {
-    // Only ask for base URL for Ollama (local) or if there's a default we might want to override
+    // Only ask for base URL for Ollama (local) or if there's a default we might
+    // want to override
     let default_url = match provider_def.protocol {
         providers::ProviderProtocol::Ollama => provider_def
             .default_base_url

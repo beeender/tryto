@@ -1,7 +1,8 @@
-use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
+
+use serde::{Deserialize, Serialize};
 
 /// Main configuration structure
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -15,7 +16,8 @@ pub struct Config {
 /// Provider configuration - flat structure works for most providers
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ProviderConfig {
-    /// Provider type (openai, anthropic, deepseek, gemini, ollama, xai, perplexity, groq)
+    /// Provider type (openai, anthropic, deepseek, gemini, ollama, xai,
+    /// perplexity, groq)
     pub provider: String,
     /// API key (optional for some providers like ollama)
     pub api_key: Option<String>,

@@ -9,8 +9,7 @@ pub const EXAMPLE_RESPONSE_JSON: &str = include_str!("ui/example_response.json")
 
 /// Parse the example response from JSON
 pub fn example_response() -> Response {
-    serde_json::from_str(EXAMPLE_RESPONSE_JSON)
-        .expect("failed to parse example_response.json")
+    serde_json::from_str(EXAMPLE_RESPONSE_JSON).expect("failed to parse example_response.json")
 }
 
 /// Display a response with the given theme
@@ -43,8 +42,14 @@ pub fn show_theme_preview(theme: &Theme) {
     println!("{}", theme.description("Semantic color samples:"));
     println!("  {} - header text", theme.header("header"));
     println!("  {} - description text", theme.description("description"));
-    println!("  {} - executable/command names", theme.executable("executable"));
-    println!("  {} - command line examples", theme.command_line("command_line"));
+    println!(
+        "  {} - executable/command names",
+        theme.executable("executable")
+    );
+    println!(
+        "  {} - command line examples",
+        theme.command_line("command_line")
+    );
     println!("  {} - arguments/flags", theme.argument("argument"));
     println!("  {} - error messages", theme.error("error"));
     println!("  {} - warning messages", theme.warning("warning"));
