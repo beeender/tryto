@@ -67,11 +67,12 @@ impl Provider {
 
     /// Generate a response for the given query.
     pub async fn generate(&self, query: &str) -> Result<String, Error> {
+        let preamble = prompts::build_prompt();
         let response = match &self.inner {
             ProviderInner::OpenAi(client) => {
                 let agent = client
                     .agent(&self.model)
-                    .preamble(prompts::COMMAND_GENERATOR)
+                    .preamble(&preamble)
                     .max_tokens(MAX_TOKENS)
                     .build();
                 agent.prompt(query).await?
@@ -79,7 +80,7 @@ impl Provider {
             ProviderInner::Anthropic(client) => {
                 let agent = client
                     .agent(&self.model)
-                    .preamble(prompts::COMMAND_GENERATOR)
+                    .preamble(&preamble)
                     .max_tokens(MAX_TOKENS)
                     .build();
                 agent.prompt(query).await?
@@ -87,7 +88,7 @@ impl Provider {
             ProviderInner::Ollama(client) => {
                 let agent = client
                     .agent(&self.model)
-                    .preamble(prompts::COMMAND_GENERATOR)
+                    .preamble(&preamble)
                     .build();
                 agent.prompt(query).await?
             }
