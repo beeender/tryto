@@ -123,25 +123,6 @@ async fn run_generate(theme: &Theme, query: &str) {
     }
 }
 
-fn parse_response(response: &str) -> Result<response::Response, Box<dyn std::error::Error>> {
-    // Try to parse as JSON first
-    let json_str = response.trim();
-    // Handle markdown code blocks
-    let json_str = if json_str.starts_with("```") {
-        json_str
-            .lines()
-            .skip(1)
-            .take_while(|line| !line.starts_with("```"))
-            .collect::<Vec<_>>()
-            .join("\n")
-    } else {
-        json_str.to_string()
-    };
-
-    let resp: response::Response = serde_json::from_str(&json_str)?;
-    Ok(resp)
-}
-
 /// Generate command using the provider from configuration
 async fn generate_command(
     provider_config: &ProviderConfig,
@@ -166,5 +147,5 @@ async fn generate_command(
     };
 
     spinner.finish_and_clear();
-    parse_response(&response)
+    response::Response::parse(&response).map_err(|e| e.into())
 }
