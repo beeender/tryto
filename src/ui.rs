@@ -3,6 +3,8 @@ pub mod theme;
 pub use theme::Theme;
 
 use crate::response::Response;
+use indicatif::{ProgressBar, ProgressStyle};
+use std::time::Duration;
 
 /// Example response JSON for theme demonstration
 pub const EXAMPLE_RESPONSE_JSON: &str = include_str!("ui/example_response.json");
@@ -64,4 +66,17 @@ pub fn show_theme_preview(theme: &Theme) {
     let example_resp = example_response();
     show(theme, &example_resp);
     println!();
+}
+
+/// Create a spinner for long-running operations
+pub fn create_spinner(msg: &str) -> ProgressBar {
+    let spinner = ProgressBar::new_spinner();
+    spinner.set_style(
+        ProgressStyle::default_spinner()
+            .template("{spinner:.cyan} {msg}")
+            .unwrap(),
+    );
+    spinner.set_message(msg.to_string());
+    spinner.enable_steady_tick(Duration::from_millis(100));
+    spinner
 }

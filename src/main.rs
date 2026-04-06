@@ -5,11 +5,8 @@ mod response;
 mod setup;
 mod ui;
 
-use std::time::Duration;
-
 use clap::{Parser, Subcommand};
 use config::ProviderConfig;
-use indicatif::{ProgressBar, ProgressStyle};
 use ui::{Theme, show};
 
 #[derive(Parser)]
@@ -145,35 +142,20 @@ fn parse_response(response: &str) -> Result<response::Response, Box<dyn std::err
     Ok(resp)
 }
 
-/// Create a spinner for long-running operations
-fn create_spinner(msg: &str) -> ProgressBar {
-    let spinner = ProgressBar::new_spinner();
-    spinner.set_style(
-        ProgressStyle::default_spinner()
-            .template("{spinner:.cyan} {msg}")
-            .unwrap(),
-    );
-    spinner.set_message(msg.to_string());
-    spinner.enable_steady_tick(Duration::from_millis(100));
-    spinner
-}
-
 /// Generate command using the provider from configuration
 async fn generate_command(
     provider_config: &ProviderConfig,
     query: &str,
 ) -> Result<response::Response, Box<dyn std::error::Error>> {
-    let spinner = create_spinner("Generating command...");
-
     // Initialize provider from config
     let provider = match providers::init(provider_config) {
         Ok(p) => p,
         Err(e) => {
-            spinner.finish_and_clear();
             return Err(Box::new(e));
         }
     };
 
+    let spinner = ui::create_spinner("Generating command...");
     // Generate response
     let response = match provider.generate(query).await {
         Ok(r) => r,
