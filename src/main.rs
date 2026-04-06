@@ -3,13 +3,13 @@ mod prompts;
 mod providers;
 mod response;
 mod setup;
-mod theme;
+mod ui;
 
 use clap::{Parser, Subcommand};
 use config::ProviderConfig;
 use indicatif::{ProgressBar, ProgressStyle};
 use std::time::Duration;
-use theme::Theme;
+use ui::{Theme, show};
 
 #[derive(Parser)]
 #[command(name = "tryto")]
@@ -27,6 +27,8 @@ struct Cli {
 enum Commands {
     /// Interactive setup wizard for configuring providers
     Setup,
+    /// Show theme preview for testing
+    Theme,
 }
 
 #[tokio::main]
@@ -40,6 +42,9 @@ async fn main() {
                 eprintln!("{}: {}", theme.error("setup failed"), e);
                 std::process::exit(1);
             }
+        }
+        Some(Commands::Theme) => {
+            ui::show_theme_preview(&theme);
         }
         None => {
             // Default behavior: generate command from natural language
@@ -109,24 +114,8 @@ async fn run_generate(theme: &Theme, query: &str) {
         );
     }
 
-    // Show the pipeline info with descriptions
-    resp.pipeline.iter().for_each(|cmd| {
-        println!(
-            "{} - {}",
-            theme.executable(&cmd.executable),
-            theme.description(&cmd.description)
-        );
-        for arg in &cmd.args {
-            println!(
-                "  {} {}",
-                theme.argument(format!("{:<4}", arg.name)),
-                theme.description(&arg.description)
-            );
-        }
-        println!();
-    });
-    println!("$ {}", theme.command_line(&resp.command_line));
-    print!("\n{} ", theme.prompt("Execute? [Y/n]"));
+    // Show the response using the ui module
+    show(theme, &resp);
     use std::io::Write;
     std::io::stdout().flush().unwrap();
 

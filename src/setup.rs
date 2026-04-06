@@ -1,6 +1,6 @@
 use crate::config::{Config, ProviderConfig};
 use crate::providers;
-use crate::theme::Theme;
+use crate::ui::Theme;
 use std::collections::HashMap;
 use std::io::{self, Write};
 

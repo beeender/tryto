@@ -1,0 +1,29 @@
+{
+  "command_line": "fd '\\.rs$' | xargs wc -l",
+  "pipeline": [
+    {
+      "executable": "fd",
+      "description": "Fast, user-friendly alternative to find",
+      "args": [
+        {
+          "name": "'\\.rs$'",
+          "description": "Regex pattern to match Rust source files"
+        }
+      ]
+    },
+    {
+      "executable": "xargs",
+      "description": "Build and execute command lines from stdin",
+      "args": [
+        {
+          "name": "wc",
+          "description": "Word count utility"
+        },
+        {
+          "name": "-l",
+          "description": "Count lines"
+        }
+      ]
+    }
+  ]
+}
