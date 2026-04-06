@@ -16,7 +16,8 @@ use ui::{Theme, show};
 #[command(name = "tryto")]
 #[command(about = "Natural language to shell command converter")]
 #[command(
-    after_help = "Examples:\n  tryto list files modified in the last 24 hours\n  tryto find all python files\n  tryto show git log with graph"
+    after_help = "Examples:\n  tryto list files modified in the last 24 hours\n  tryto find all \
+                  python files\n  tryto show git log with graph"
 )]
 struct Cli {
     #[command(subcommand)]
@@ -37,6 +38,7 @@ enum Commands {
 
 #[tokio::main]
 async fn main() {
+    env_logger::init();
     let cli = Cli::parse();
     let theme = Theme::default();
 
@@ -52,7 +54,9 @@ async fn main() {
         }
         None => {
             if cli.query.is_empty() {
-                <Cli as clap::CommandFactory>::command().print_help().unwrap();
+                <Cli as clap::CommandFactory>::command()
+                    .print_help()
+                    .unwrap();
                 println!();
                 std::process::exit(1);
             }
@@ -98,16 +102,6 @@ async fn run_generate(theme: &Theme, query: &str) {
             std::process::exit(1);
         }
     };
-
-    // Write command line to tmp log file for debugging
-    let log_path = std::path::PathBuf::from("/tmp/tryto_debug.log");
-    if let Err(e) = std::fs::write(&log_path, &resp.command_line) {
-        eprintln!(
-            "{}: failed to write debug log: {}",
-            theme.warning("warning"),
-            e
-        );
-    }
 
     // Show the response using the ui module
     show(theme, &resp);

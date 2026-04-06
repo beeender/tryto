@@ -69,6 +69,7 @@ impl Provider {
     /// Generate a response for the given query.
     pub async fn generate(&self, query: &str) -> Result<String, Error> {
         let preamble = prompts::build_prompt();
+        log::debug!("Prompt:\n{}\nQuery: {}", preamble, query);
         let response = match &self.inner {
             ProviderInner::OpenAi(client) => {
                 let agent = client
@@ -92,6 +93,7 @@ impl Provider {
             }
         };
 
+        log::debug!("Response:\n{}", response);
         Ok(response)
     }
 }
