@@ -15,6 +15,9 @@ use ui::{Theme, show};
 #[derive(Parser)]
 #[command(name = "tryto")]
 #[command(about = "Natural language to shell command converter")]
+#[command(
+    after_help = "Examples:\n  tryto list files modified in the last 24 hours\n  tryto find all python files\n  tryto show git log with graph"
+)]
 struct Cli {
     #[command(subcommand)]
     command: Option<Commands>,
@@ -48,20 +51,11 @@ async fn main() {
             ui::show_theme_preview(&theme);
         }
         None => {
-            // Default behavior: generate command from natural language
             if cli.query.is_empty() {
-                eprintln!(
-                    "{}: tryto <natural language description>",
-                    theme.header("usage")
-                );
-                eprintln!(
-                    "{}: tryto list files modified in the last 24 hours",
-                    theme.hint("example")
-                );
-                eprintln!("\n{}: tryto setup", theme.hint("or run setup wizard"));
+                <Cli as clap::CommandFactory>::command().print_help().unwrap();
+                println!();
                 std::process::exit(1);
             }
-
             let query = cli.query.join(" ");
             run_generate(&theme, &query).await;
         }
