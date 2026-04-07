@@ -7,7 +7,7 @@ mod ui;
 
 use clap::{Parser, Subcommand};
 use config::ProviderConfig;
-use ui::{Theme, show};
+use ui::Theme;
 
 #[derive(Parser)]
 #[command(name = "tryto")]
@@ -100,16 +100,17 @@ async fn run_generate(theme: &Theme, query: &str) {
         }
     };
 
-    // Show the response using the ui module
-    show(theme, &resp);
+    // Show the response and get confirmation type
+    let confirmation = ui::show(theme, &resp);
     use std::io::Write;
     std::io::stdout().flush().unwrap();
 
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).unwrap();
 
-    let input = input.trim().to_lowercase();
-    if input.is_empty() || input == "y" || input == "yes" {
+    let should_execute = confirmation.check(&input);
+
+    if should_execute {
         // Execute the command
         let status = std::process::Command::new("sh")
             .arg("-c")

@@ -2313,6 +2313,7 @@ dependencies = [
  "indicatif",
  "log",
  "owo-colors",
+ "rand 0.8.5",
  "rig-core",
  "serde",
  "serde_json",

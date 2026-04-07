@@ -17,7 +17,9 @@ Return a JSON object with the following structure:
         {"name": "arg_value", "description": "what this arg does"}
       ]
     }
-  ]
+  ],
+  "dangerous_level": 0,
+  "dangerous_reason": null
 }
 ```
 
@@ -34,6 +36,11 @@ Return a JSON object with the following structure:
 6. The command should be safe and executable in a standard shell (bash/zsh)
 7. If the request is ambiguous, provide the most common interpretation
 8. **PREFER MODERN TOOLS**: Use modern alternatives when available (e.g., `bat` instead of `cat`, `fd` instead of `find`, `rg` instead of `grep`)
+9. **MARK DANGEROUS OPERATIONS**: Set `dangerous_level` and provide `dangerous_reason`:
+   - **Level 0** (safe): Read-only commands (ls, cat, grep, find)
+   - **Level 1** (caution): Commands with side effects but usually safe (mkdir, touch, cp - can overwrite)
+   - **Level 2** (dangerous): Destructive operations (rm, truncate, > overwrite) - requires typed confirmation code
+   - **Level 3** (critical): System-level destruction (dd, mkfs, format, wipe, shred, rm -rf /) - requires longer confirmation code
 
 ## Examples
 
@@ -138,6 +145,50 @@ Return a JSON object with the following structure:
         {"name": "'NR==2 {print $5 + 1}'", "description": "Select 2nd line, extract size field, add 1"}
       ]
     }
-  ]
+  ],
+  "dangerous_level": 0
+}
+```
+
+**User:** "delete all log files"
+```json
+{
+  "command_line": "fd '\.log$' -x rm",
+  "pipeline": [
+    {
+      "executable": "fd",
+      "description": "Find files matching pattern",
+      "args": [
+        {"name": "'\\.log$'", "description": "Regex pattern to match log files"},
+        {"name": "-x", "description": "Execute command for each result"}
+      ]
+    },
+    {
+      "executable": "rm",
+      "description": "Remove files permanently",
+      "args": []
+    }
+  ],
+  "dangerous_level": 2,
+  "dangerous_reason": "This will permanently delete all .log files found. Deleted files cannot be recovered from trash."
+}
+```
+
+**User:** "format disk"
+```json
+{
+  "command_line": "sudo mkfs.ext4 /dev/sdb",
+  "pipeline": [
+    {
+      "executable": "sudo",
+      "description": "Execute with superuser privileges",
+      "args": [
+        {"name": "mkfs.ext4", "description": "Create ext4 filesystem"},
+        {"name": "/dev/sdb", "description": "Target disk device"}
+      ]
+    }
+  ],
+  "dangerous_level": 3,
+  "dangerous_reason": "This will ERASE ALL DATA on /dev/sdb. The entire disk will be wiped and reformatted. This cannot be undone."
 }
 ```

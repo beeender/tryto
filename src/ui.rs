@@ -1,5 +1,7 @@
+pub mod confirmation;
 pub mod theme;
 
+pub use confirmation::Confirmation;
 pub use theme::Theme;
 
 use crate::response::Response;
@@ -14,8 +16,8 @@ pub fn example_response() -> Response {
     serde_json::from_str(EXAMPLE_RESPONSE_JSON).expect("failed to parse example_response.json")
 }
 
-/// Display a response with the given theme
-pub fn show(theme: &Theme, response: &Response) {
+/// Display a response with the given theme, returns Confirmation needed
+pub fn show(theme: &Theme, response: &Response) -> Confirmation {
     // Show the pipeline info with descriptions
     response.pipeline.iter().for_each(|cmd| {
         println!(
@@ -32,8 +34,39 @@ pub fn show(theme: &Theme, response: &Response) {
         }
         println!();
     });
-    println!("$ {}", theme.command_line(&response.command_line));
-    print!("\n{} ", theme.prompt("Execute? [Y/n]"));
+
+    // Show danger indicator in command line
+    if response.dangerous_level > 0 {
+        let indicator = match response.dangerous_level {
+            1 => "⚠️ ",
+            2 => "⚠️ ",
+            3 => "🚨",
+            _ => "⚠️ ",
+        };
+        println!(
+            "{} {}",
+            theme.command_line(&response.command_line),
+            theme.error(indicator)
+        );
+    } else {
+        println!("$ {}", theme.command_line(&response.command_line));
+    }
+
+    // Create confirmation based on danger level
+    let confirmation = Confirmation::from_level(response.dangerous_level);
+
+    // Show warning if dangerous
+    if let Some(warning) = confirmation.warning() {
+        println!("\n{}", theme.error(warning));
+        if let Some(reason) = &response.dangerous_reason {
+            println!("{}", theme.description(reason));
+        }
+    }
+
+    // Print confirmation prompt
+    print!("\n{}", theme.prompt(confirmation.level.prompt(confirmation.code())));
+
+    confirmation
 }
 
 /// Show theme preview for testing
@@ -64,7 +97,7 @@ pub fn show_theme_preview(theme: &Theme) {
     println!();
 
     let example_resp = example_response();
-    show(theme, &example_resp);
+    let _confirmation = show(theme, &example_resp);
     println!();
 }
 
