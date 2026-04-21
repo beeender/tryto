@@ -1,0 +1,95 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        include:
+          ## Linux builds
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            archive_type: tar.gz
+
+          ## macOS builds
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            archive_type: tar.gz
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            archive_type: tar.gz
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Build binary
+        uses: houseabsolute/actions-rust-cross@v1
+        with:
+          command: build
+          target: ${{ matrix.target }}
+          args: "--locked --release"
+          strip: true
+
+      - name: Test binary
+        uses: houseabsolute/actions-rust-cross@v1
+        with:
+          command: test
+          target: ${{ matrix.target }}
+          args: "--locked"
+
+      - name: Archive Release
+        uses: TheDoctor0/zip-release@0.7.6
+        with:
+          type: ${{ matrix.archive_type }}
+          directory: target/${{ matrix.target }}/release
+          path: tryto
+          filename: tryto_${{ github.ref_name }}_${{ matrix.target }}.${{ matrix.archive_type }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tryto_${{ github.ref_name }}_${{ matrix.target }}.${{ matrix.archive_type }}
+          path: target/${{ matrix.target }}/release/tryto_*.${{ matrix.archive_type }}
+
+  release:
+    name: Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Generate checksums
+        run: |
+          cd artifacts
+          for file in */*; do
+            sha256sum "$file" > "${file}.sha256"
+          done
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          token: ${{ github.token }}
+          files: artifacts/**/*
+          draft: true
+          prerelease: false
+          generate_release_notes: true
