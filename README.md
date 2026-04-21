@@ -4,11 +4,23 @@
 
 Natural language to shell command converter powered by AI.
 
+![Screenshot](assets/screenshot.png)
+
 ## Installation
 
 ### Pre-built binaries
 
 Download from [GitHub Releases](https://github.com/beeender/tryto/releases).
+
+### AUR (Arch Linux)
+
+```bash
+# Using yay
+yay -S tryto-bin
+
+# Or using paru
+paru -S tryto-bin
+```
 
 ## Quick Start
 
