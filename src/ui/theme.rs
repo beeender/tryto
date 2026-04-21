@@ -173,29 +173,59 @@ const PRESETS: &[(&str, &str)] = &[
     ("alacritty", include_str!("presets/alacritty.toml")),
     ("apprentice", include_str!("presets/apprentice.toml")),
     ("ayu-mirage", include_str!("presets/ayu-mirage.toml")),
-    ("catppuccin-frappe", include_str!("presets/catppuccin-frappe.toml")),
-    ("catppuccin-latte", include_str!("presets/catppuccin-latte.toml")),
-    ("catppuccin-macchiato", include_str!("presets/catppuccin-macchiato.toml")),
-    ("catppuccin-mocha", include_str!("presets/catppuccin-mocha.toml")),
+    (
+        "catppuccin-frappe",
+        include_str!("presets/catppuccin-frappe.toml"),
+    ),
+    (
+        "catppuccin-latte",
+        include_str!("presets/catppuccin-latte.toml"),
+    ),
+    (
+        "catppuccin-macchiato",
+        include_str!("presets/catppuccin-macchiato.toml"),
+    ),
+    (
+        "catppuccin-mocha",
+        include_str!("presets/catppuccin-mocha.toml"),
+    ),
     ("chiba-dark", include_str!("presets/chiba-dark.toml")),
     ("default", include_str!("presets/default.toml")),
     ("derp", include_str!("presets/derp.toml")),
     ("deus", include_str!("presets/deus.toml")),
     ("dracula", include_str!("presets/dracula.toml")),
     ("dracula-iterm", include_str!("presets/dracula-iterm.toml")),
-    ("electrophoretic", include_str!("presets/electrophoretic.toml")),
+    (
+        "electrophoretic",
+        include_str!("presets/electrophoretic.toml"),
+    ),
     ("gruvbox", include_str!("presets/gruvbox.toml")),
     ("gruvbox-dark", include_str!("presets/gruvbox-dark.toml")),
     ("gruvbox-light", include_str!("presets/gruvbox-light.toml")),
     ("hacktober", include_str!("presets/hacktober.toml")),
     ("iterm", include_str!("presets/iterm.toml")),
-    ("jetbrains-darcula", include_str!("presets/jetbrains-darcula.toml")),
+    (
+        "jetbrains-darcula",
+        include_str!("presets/jetbrains-darcula.toml"),
+    ),
     ("kitty", include_str!("presets/kitty.toml")),
-    ("material-amber", include_str!("presets/material-amber.toml")),
-    ("material-design", include_str!("presets/material-design.toml")),
-    ("modus-operandi", include_str!("presets/modus-operandi.toml")),
+    (
+        "material-amber",
+        include_str!("presets/material-amber.toml"),
+    ),
+    (
+        "material-design",
+        include_str!("presets/material-design.toml"),
+    ),
+    (
+        "modus-operandi",
+        include_str!("presets/modus-operandi.toml"),
+    ),
     ("modus-vivendi", include_str!("presets/modus-vivendi.toml")),
-    ("modus-vivendi-tinted", include_str!("presets/modus-vivendi-tinted.toml")),
+    (
+        "modus-vivendi-tinted",
+        include_str!("presets/modus-vivendi-tinted.toml"),
+    ),
     ("molokai", include_str!("presets/molokai.toml")),
     ("monokai-pro", include_str!("presets/monokai-pro.toml")),
     ("moonfly", include_str!("presets/moonfly.toml")),
@@ -212,28 +242,67 @@ const PRESETS: &[(&str, &str)] = &[
     ("onehalf-dark", include_str!("presets/onehalf-dark.toml")),
     ("panda", include_str!("presets/panda.toml")),
     ("paper-color", include_str!("presets/paper-color.toml")),
-    ("paper-color-dark", include_str!("presets/paper-color-dark.toml")),
-    ("paper-color-light", include_str!("presets/paper-color-light.toml")),
+    (
+        "paper-color-dark",
+        include_str!("presets/paper-color-dark.toml"),
+    ),
+    (
+        "paper-color-light",
+        include_str!("presets/paper-color-light.toml"),
+    ),
     ("poimandres", include_str!("presets/poimandres.toml")),
     ("rezza", include_str!("presets/rezza.toml")),
     ("rose-pine", include_str!("presets/rose-pine.toml")),
-    ("rose-pine-dawn", include_str!("presets/rose-pine-dawn.toml")),
-    ("rose-pine-moon", include_str!("presets/rose-pine-moon.toml")),
+    (
+        "rose-pine-dawn",
+        include_str!("presets/rose-pine-dawn.toml"),
+    ),
+    (
+        "rose-pine-moon",
+        include_str!("presets/rose-pine-moon.toml"),
+    ),
     ("selenized", include_str!("presets/selenized.toml")),
-    ("selenized-black", include_str!("presets/selenized-black.toml")),
-    ("selenized-dark", include_str!("presets/selenized-dark.toml")),
-    ("selenized-light", include_str!("presets/selenized-light.toml")),
-    ("selenized-white", include_str!("presets/selenized-white.toml")),
+    (
+        "selenized-black",
+        include_str!("presets/selenized-black.toml"),
+    ),
+    (
+        "selenized-dark",
+        include_str!("presets/selenized-dark.toml"),
+    ),
+    (
+        "selenized-light",
+        include_str!("presets/selenized-light.toml"),
+    ),
+    (
+        "selenized-white",
+        include_str!("presets/selenized-white.toml"),
+    ),
     ("solarized", include_str!("presets/solarized.toml")),
-    ("solarized-dark", include_str!("presets/solarized-dark.toml")),
-    ("solarized-dark-normal-brights", include_str!("presets/solarized-dark-normal-brights.toml")),
-    ("solarized-light", include_str!("presets/solarized-light.toml")),
-    ("solarized-normal-brights", include_str!("presets/solarized-normal-brights.toml")),
+    (
+        "solarized-dark",
+        include_str!("presets/solarized-dark.toml"),
+    ),
+    (
+        "solarized-dark-normal-brights",
+        include_str!("presets/solarized-dark-normal-brights.toml"),
+    ),
+    (
+        "solarized-light",
+        include_str!("presets/solarized-light.toml"),
+    ),
+    (
+        "solarized-normal-brights",
+        include_str!("presets/solarized-normal-brights.toml"),
+    ),
     ("srcery", include_str!("presets/srcery.toml")),
     ("starlight", include_str!("presets/starlight.toml")),
     ("tango", include_str!("presets/tango.toml")),
     ("tempus-autumn", include_str!("presets/tempus-autumn.toml")),
-    ("tempus-classic", include_str!("presets/tempus-classic.toml")),
+    (
+        "tempus-classic",
+        include_str!("presets/tempus-classic.toml"),
+    ),
     ("tempus-dawn", include_str!("presets/tempus-dawn.toml")),
     ("tempus-day", include_str!("presets/tempus-day.toml")),
     ("tempus-dusk", include_str!("presets/tempus-dusk.toml")),
@@ -244,14 +313,26 @@ const PRESETS: &[(&str, &str)] = &[
     ("tempus-rift", include_str!("presets/tempus-rift.toml")),
     ("tempus-spring", include_str!("presets/tempus-spring.toml")),
     ("tempus-summer", include_str!("presets/tempus-summer.toml")),
-    ("tempus-tempest", include_str!("presets/tempus-tempest.toml")),
+    (
+        "tempus-tempest",
+        include_str!("presets/tempus-tempest.toml"),
+    ),
     ("tempus-totus", include_str!("presets/tempus-totus.toml")),
     ("tempus-warp", include_str!("presets/tempus-warp.toml")),
     ("tempus-winter", include_str!("presets/tempus-winter.toml")),
     ("tokyo-night", include_str!("presets/tokyo-night.toml")),
-    ("tokyonight-light", include_str!("presets/tokyonight-light.toml")),
-    ("tokyonight-night", include_str!("presets/tokyonight-night.toml")),
-    ("tokyonight-storm", include_str!("presets/tokyonight-storm.toml")),
+    (
+        "tokyonight-light",
+        include_str!("presets/tokyonight-light.toml"),
+    ),
+    (
+        "tokyonight-night",
+        include_str!("presets/tokyonight-night.toml"),
+    ),
+    (
+        "tokyonight-storm",
+        include_str!("presets/tokyonight-storm.toml"),
+    ),
     ("visibone", include_str!("presets/visibone.toml")),
     ("xterm", include_str!("presets/xterm.toml")),
     ("zenburn", include_str!("presets/zenburn.toml")),
@@ -269,11 +350,9 @@ pub fn list_presets() -> impl Iterator<Item = &'static str> {
 
 /// Load theme from preset name
 pub fn from_preset(name: &str) -> Result<Theme, PresetError> {
-    let toml_str = get_preset(name)
-        .ok_or_else(|| PresetError::NotFound(name.to_string()))?;
+    let toml_str = get_preset(name).ok_or_else(|| PresetError::NotFound(name.to_string()))?;
 
-    toml::from_str(toml_str)
-        .map_err(|e| PresetError::ParseError(e.to_string()))
+    toml::from_str(toml_str).map_err(|e| PresetError::ParseError(e.to_string()))
 }
 
 /// Load theme from config or use default
@@ -301,9 +380,30 @@ mod tests {
             // Helper to check if color is valid hex or named color
             let check_color = |color: &Option<String>, field: &str| {
                 if let Some(c) = color {
-                    let valid =
-                        (c.starts_with('#') && c.len() == 7 && c[1..].chars().all(|ch| ch.is_ascii_hexdigit()))
-                        || matches!(c.as_str(), "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white" | "bright-black" | "bright-red" | "bright-green" | "bright-yellow" | "bright-blue" | "bright-magenta" | "bright-cyan" | "bright-white" | "grey" | "gray");
+                    let valid = (c.starts_with('#')
+                        && c.len() == 7
+                        && c[1..].chars().all(|ch| ch.is_ascii_hexdigit()))
+                        || matches!(
+                            c.as_str(),
+                            "black"
+                                | "red"
+                                | "green"
+                                | "yellow"
+                                | "blue"
+                                | "magenta"
+                                | "cyan"
+                                | "white"
+                                | "bright-black"
+                                | "bright-red"
+                                | "bright-green"
+                                | "bright-yellow"
+                                | "bright-blue"
+                                | "bright-magenta"
+                                | "bright-cyan"
+                                | "bright-white"
+                                | "grey"
+                                | "gray"
+                        );
                     assert!(
                         valid,
                         "preset '{}': field '{}' has invalid color '{}'",

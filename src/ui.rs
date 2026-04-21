@@ -1,12 +1,13 @@
 pub mod confirmation;
 pub mod theme;
 
+use std::time::Duration;
+
 pub use confirmation::Confirmation;
+use indicatif::{ProgressBar, ProgressStyle};
 pub use theme::Theme;
 
 use crate::response::Response;
-use indicatif::{ProgressBar, ProgressStyle};
-use std::time::Duration;
 
 /// Example response JSON for theme demonstration
 pub const EXAMPLE_RESPONSE_JSON: &str = include_str!("ui/example_response.json");
@@ -64,7 +65,10 @@ pub fn show(theme: &Theme, response: &Response) -> Confirmation {
     }
 
     // Print confirmation prompt
-    print!("\n{}", confirmation.level.prompt(confirmation.code(), theme));
+    print!(
+        "\n{}",
+        confirmation.level.prompt(confirmation.code(), theme)
+    );
 
     confirmation
 }

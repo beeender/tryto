@@ -99,7 +99,10 @@ mod tests {
         let json = r#"{"command_line": "rm -rf /", "pipeline": [{"executable": "rm", "description": "Remove files", "args": [{"name": "-rf", "description": "Recursive force"}]}], "dangerous_level": 3, "dangerous_reason": "Permanently deletes files"}"#;
         let resp = Response::parse(json).unwrap();
         assert_eq!(resp.dangerous_level, 3);
-        assert_eq!(resp.dangerous_reason, Some("Permanently deletes files".to_string()));
+        assert_eq!(
+            resp.dangerous_reason,
+            Some("Permanently deletes files".to_string())
+        );
     }
 
     #[test]

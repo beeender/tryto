@@ -83,11 +83,7 @@ async fn main() {
     }
 }
 
-fn handle_theme_command(
-    theme: &Theme,
-    command: ThemeCommands,
-    config: Option<config::Config>,
-) {
+fn handle_theme_command(theme: &Theme, command: ThemeCommands, config: Option<config::Config>) {
     use ui::theme;
 
     match command {
@@ -104,8 +100,14 @@ fn handle_theme_command(
                 println!("{}", theme.executable(display_name));
             }
             println!();
-            println!("{}", theme.hint("Use 'tryto theme preview <name>' to preview a theme"));
-            println!("{}", theme.hint("Use 'tryto theme set <name>' to set as default"));
+            println!(
+                "{}",
+                theme.hint("Use 'tryto theme preview <name>' to preview a theme")
+            );
+            println!(
+                "{}",
+                theme.hint("Use 'tryto theme set <name>' to set as default")
+            );
         }
         ThemeCommands::Preview { name } => {
             let preview_theme = match name.as_deref() {
@@ -145,7 +147,11 @@ fn handle_theme_command(
                 eprintln!("{}: failed to save config: {}", theme.error("error"), e);
                 std::process::exit(1);
             }
-            println!("{} Theme set to '{}'", theme.hint("✓"), theme.executable(&name));
+            println!(
+                "{} Theme set to '{}'",
+                theme.hint("✓"),
+                theme.executable(&name)
+            );
         }
     }
 }

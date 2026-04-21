@@ -7,7 +7,8 @@ pub enum DangerLevel {
     Caution = 1,
     /// Level 2: Dangerous - requires "yes <3-char code>" (numbers + lowercase)
     Dangerous = 2,
-    /// Level 3: Critical - requires "yes <6-char code>" (numbers + lower + upper)
+    /// Level 3: Critical - requires "yes <6-char code>" (numbers + lower +
+    /// upper)
     Critical = 3,
 }
 
@@ -147,8 +148,9 @@ impl Confirmation {
     }
 
     /// Generate code with guaranteed character types
-    /// Level 2: 3 chars with at least 1 digit AND 1 lowercase (digits + lowercase only)
-    /// Level 3: 6 chars with at least 1 digit AND 1 lowercase AND 1 uppercase
+    /// Level 2: 3 chars with at least 1 digit AND 1 lowercase (digits +
+    /// lowercase only) Level 3: 6 chars with at least 1 digit AND 1
+    /// lowercase AND 1 uppercase
     fn generate_mixed_code(len: usize, require_lower: bool, require_upper: bool) -> String {
         let digits = "0123456789";
         let lowercase = "abcdefghijklmnopqrstuvwxyz";
@@ -157,14 +159,29 @@ impl Confirmation {
         let mut code = String::with_capacity(len);
 
         // Ensure required character types are present
-        code.push(digits.chars().nth(rand::random::<usize>() % digits.len()).unwrap());
+        code.push(
+            digits
+                .chars()
+                .nth(rand::random::<usize>() % digits.len())
+                .unwrap(),
+        );
 
         if require_lower {
-            code.push(lowercase.chars().nth(rand::random::<usize>() % lowercase.len()).unwrap());
+            code.push(
+                lowercase
+                    .chars()
+                    .nth(rand::random::<usize>() % lowercase.len())
+                    .unwrap(),
+            );
         }
 
         if require_upper {
-            code.push(uppercase.chars().nth(rand::random::<usize>() % uppercase.len()).unwrap());
+            code.push(
+                uppercase
+                    .chars()
+                    .nth(rand::random::<usize>() % uppercase.len())
+                    .unwrap(),
+            );
         }
 
         // Fill remaining with allowed chars (level 2: digits+lower, level 3: all)
@@ -230,7 +247,10 @@ mod tests {
         assert!(!confirm.check(""));
 
         // Code should only contain lowercase and digits
-        assert!(code.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit()));
+        assert!(
+            code.chars()
+                .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit())
+        );
     }
 
     #[test]
