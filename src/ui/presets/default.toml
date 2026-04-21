@@ -1,0 +1,37 @@
+# Default theme preset
+
+[executable]
+fg = "cyan"
+
+[argument]
+fg = "yellow"
+
+[description]
+
+[hint]
+italic = true
+dimmed = true
+
+[header]
+fg = "cyan"
+bold = true
+
+[command_line]
+fg = "green"
+
+[step_number]
+fg = "blue"
+bold = true
+
+[prompt]
+fg = "blue"
+
+[error]
+fg = "red"
+bold = true
+
+[warning]
+fg = "yellow"
+
+[success]
+fg = "green"

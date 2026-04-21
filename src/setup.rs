@@ -48,6 +48,7 @@ pub fn run_setup(theme: &Theme) -> Result<(), Box<dyn std::error::Error>> {
 
     let config = Config {
         default_provider: provider_id.to_string(),
+        theme: None,
         providers: providers_map,
     };
 

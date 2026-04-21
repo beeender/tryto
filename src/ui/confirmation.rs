@@ -22,16 +22,33 @@ impl DangerLevel {
         }
     }
 
-    /// Get the confirmation prompt text
-    pub fn prompt(&self, code: Option<&str>) -> String {
+    /// Get the confirmation prompt text with theme colors applied
+    pub fn prompt(&self, code: Option<&str>, theme: &crate::ui::Theme) -> String {
         match self {
-            DangerLevel::Safe => "Execute? [Y/n]".to_string(),
-            DangerLevel::Caution => "Type 'yes' to confirm execution: ".to_string(),
+            DangerLevel::Safe => theme.prompt("Execute? [Y/n]"),
+            DangerLevel::Caution => {
+                format!(
+                    "{}{}{}",
+                    theme.prompt("Type '"),
+                    theme.warning("yes"),
+                    theme.prompt("' to confirm execution: ")
+                )
+            }
             DangerLevel::Dangerous => {
-                format!("Type 'yes {}' to confirm execution: ", code.unwrap_or("???"))
+                format!(
+                    "{}{}{}",
+                    theme.prompt("Type '"),
+                    theme.warning(format!("yes {}", code.unwrap_or("???"))),
+                    theme.prompt("' to confirm execution: ")
+                )
             }
             DangerLevel::Critical => {
-                format!("CRITICAL: Type 'yes {}' to confirm execution: ", code.unwrap_or("???"))
+                format!(
+                    "{}{}{}",
+                    theme.prompt("CRITICAL: Type '"),
+                    theme.warning(format!("yes {}", code.unwrap_or("???"))),
+                    theme.prompt("' to confirm execution: ")
+                )
             }
         }
     }

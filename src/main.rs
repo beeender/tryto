@@ -29,15 +29,35 @@ struct Cli {
 enum Commands {
     /// Interactive setup wizard for configuring providers
     Setup,
-    /// Show theme preview for testing
-    Theme,
+    /// Manage themes
+    Theme {
+        #[command(subcommand)]
+        command: ThemeCommands,
+    },
+}
+
+#[derive(Subcommand)]
+enum ThemeCommands {
+    /// List available themes
+    List,
+    /// Preview a theme (defaults to current)
+    Preview { name: Option<String> },
+    /// Set theme as default
+    Set { name: String },
 }
 
 #[tokio::main]
 async fn main() {
     env_logger::init();
     let cli = Cli::parse();
-    let theme = Theme::default();
+
+    // Load theme from config or use default
+    let config = config::Config::load_default().ok();
+    let theme_name = config.as_ref().and_then(|c| c.theme.as_deref());
+    let theme = ui::theme::load(theme_name).unwrap_or_else(|e| {
+        log::error!("failed to load theme: {}, fallback to default", e);
+        Theme::default()
+    });
 
     match cli.command {
         Some(Commands::Setup) => {
@@ -46,8 +66,8 @@ async fn main() {
                 std::process::exit(1);
             }
         }
-        Some(Commands::Theme) => {
-            ui::show_theme_preview(&theme);
+        Some(Commands::Theme { command }) => {
+            handle_theme_command(&theme, command, config);
         }
         None => {
             if cli.query.is_empty() {
@@ -59,6 +79,73 @@ async fn main() {
             }
             let query = cli.query.join(" ");
             run_generate(&theme, &query).await;
+        }
+    }
+}
+
+fn handle_theme_command(
+    theme: &Theme,
+    command: ThemeCommands,
+    config: Option<config::Config>,
+) {
+    use ui::theme;
+
+    match command {
+        ThemeCommands::List => {
+            println!("{}", theme.header("Available themes:"));
+            println!();
+            for name in theme::list_presets() {
+                let current = config.as_ref().and_then(|c| c.theme.as_deref());
+                let display_name = if Some(name) == current.as_ref() {
+                    format!("* {}", name)
+                } else {
+                    format!("  {}", name)
+                };
+                println!("{}", theme.executable(display_name));
+            }
+            println!();
+            println!("{}", theme.hint("Use 'tryto theme preview <name>' to preview a theme"));
+            println!("{}", theme.hint("Use 'tryto theme set <name>' to set as default"));
+        }
+        ThemeCommands::Preview { name } => {
+            let preview_theme = match name.as_deref() {
+                Some(n) => match theme::from_preset(n) {
+                    Ok(t) => {
+                        println!("{}", theme.header(format!("Previewing theme: {}", n)));
+                        println!();
+                        t
+                    }
+                    Err(e) => {
+                        log::error!("failed to load theme '{}': {}", n, e);
+                        std::process::exit(1);
+                    }
+                },
+                None => theme.clone(),
+            };
+            ui::show_theme_preview(&preview_theme);
+        }
+        ThemeCommands::Set { name } => {
+            if theme::get_preset(&name).is_none() {
+                eprintln!("{}: theme '{}' not found", theme.error("error"), name);
+                eprintln!(
+                    "{}",
+                    theme.hint("Run 'tryto theme list' to see available themes")
+                );
+                std::process::exit(1);
+            }
+            let mut cfg = config.unwrap_or_else(|| {
+                eprintln!(
+                    "{}: no config found, run 'tryto setup' first",
+                    theme.error("error")
+                );
+                std::process::exit(1);
+            });
+            cfg.theme = Some(name.clone());
+            if let Err(e) = cfg.save_default() {
+                eprintln!("{}: failed to save config: {}", theme.error("error"), e);
+                std::process::exit(1);
+            }
+            println!("{} Theme set to '{}'", theme.hint("✓"), theme.executable(&name));
         }
     }
 }

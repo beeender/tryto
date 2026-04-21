@@ -1,0 +1,42 @@
+# Tokyo Night theme preset
+# A dark, elegant theme with blue-purple tones
+
+[executable]
+fg = "#7aa2f7"
+bold = true
+
+[argument]
+fg = "#e0af68"
+
+[description]
+fg = "#565f89"
+
+[hint]
+fg = "#565f89"
+italic = true
+dimmed = true
+
+[header]
+fg = "#bb9af7"
+bold = true
+
+[command_line]
+fg = "#9ece6a"
+
+[step_number]
+fg = "#7aa2f7"
+bold = true
+
+[prompt]
+fg = "#7aa2f7"
+bold = true
+
+[error]
+fg = "#f7768e"
+bold = true
+
+[warning]
+fg = "#e0af68"
+
+[success]
+fg = "#9ece6a"

@@ -64,7 +64,7 @@ pub fn show(theme: &Theme, response: &Response) -> Confirmation {
     }
 
     // Print confirmation prompt
-    print!("\n{}", theme.prompt(confirmation.level.prompt(confirmation.code())));
+    print!("\n{}", confirmation.level.prompt(confirmation.code(), theme));
 
     confirmation
 }

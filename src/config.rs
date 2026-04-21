@@ -9,6 +9,8 @@ use serde::{Deserialize, Serialize};
 pub struct Config {
     /// Default provider to use when none is specified
     pub default_provider: String,
+    /// Theme preset name (optional)
+    pub theme: Option<String>,
     /// Provider configurations
     pub providers: HashMap<String, ProviderConfig>,
 }
