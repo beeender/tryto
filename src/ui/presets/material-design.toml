@@ -1,0 +1,41 @@
+# material-design theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#40C4FF"
+bold = true
+
+[argument]
+fg = "#FFD740"
+
+[description]
+fg = "#ECEFF1"
+
+[hint]
+fg = "#64FCDA"
+italic = true
+
+[header]
+fg = "#FF4081"
+bold = true
+
+[command_line]
+fg = "#5CF19E"
+
+[step_number]
+fg = "#40C4FF"
+bold = true
+
+[prompt]
+fg = "#40C4FF"
+bold = true
+
+[error]
+fg = "#FF5252"
+bold = true
+
+[warning]
+fg = "#FFD740"
+
+[success]
+fg = "#5CF19E"

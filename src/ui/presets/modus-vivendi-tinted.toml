@@ -1,0 +1,41 @@
+# modus-vivendi-tinted theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#2fafff"
+bold = true
+
+[argument]
+fg = "#d0bc00"
+
+[description]
+fg = "#ffffff"
+
+[hint]
+fg = "#00d3d0"
+italic = true
+
+[header]
+fg = "#feacd0"
+bold = true
+
+[command_line]
+fg = "#44bc44"
+
+[step_number]
+fg = "#2fafff"
+bold = true
+
+[prompt]
+fg = "#2fafff"
+bold = true
+
+[error]
+fg = "#ff5f59"
+bold = true
+
+[warning]
+fg = "#d0bc00"
+
+[success]
+fg = "#44bc44"

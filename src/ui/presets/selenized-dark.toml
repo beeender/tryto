@@ -1,0 +1,41 @@
+# selenized-dark theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#4695f7"
+bold = true
+
+[argument]
+fg = "#dbb32d"
+
+[description]
+fg = "#adbcbc"
+
+[hint]
+fg = "#41c7b9"
+italic = true
+
+[header]
+fg = "#f275be"
+bold = true
+
+[command_line]
+fg = "#75b938"
+
+[step_number]
+fg = "#4695f7"
+bold = true
+
+[prompt]
+fg = "#4695f7"
+bold = true
+
+[error]
+fg = "#fa5750"
+bold = true
+
+[warning]
+fg = "#dbb32d"
+
+[success]
+fg = "#75b938"

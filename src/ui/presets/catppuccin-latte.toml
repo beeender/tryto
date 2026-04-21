@@ -1,0 +1,41 @@
+# catppuccin-latte theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#1e66f5"
+bold = true
+
+[argument]
+fg = "#df8e1d"
+
+[description]
+fg = "#4c4f69"
+
+[hint]
+fg = "#179299"
+italic = true
+
+[header]
+fg = "#ea76cb"
+bold = true
+
+[command_line]
+fg = "#40a02b"
+
+[step_number]
+fg = "#1e66f5"
+bold = true
+
+[prompt]
+fg = "#1e66f5"
+bold = true
+
+[error]
+fg = "#d20f39"
+bold = true
+
+[warning]
+fg = "#df8e1d"
+
+[success]
+fg = "#40a02b"

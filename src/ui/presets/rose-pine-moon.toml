@@ -1,0 +1,41 @@
+# rose-pine-moon theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#3e8fb0"
+bold = true
+
+[argument]
+fg = "#f6c177"
+
+[description]
+fg = "#e0def4"
+
+[hint]
+fg = "#ea9a97"
+italic = true
+
+[header]
+fg = "#c4a7e7"
+bold = true
+
+[command_line]
+fg = "#9ccfd8"
+
+[step_number]
+fg = "#3e8fb0"
+bold = true
+
+[prompt]
+fg = "#3e8fb0"
+bold = true
+
+[error]
+fg = "#eb6f92"
+bold = true
+
+[warning]
+fg = "#f6c177"
+
+[success]
+fg = "#9ccfd8"

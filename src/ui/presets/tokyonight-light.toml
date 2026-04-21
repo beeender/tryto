@@ -1,0 +1,41 @@
+# tokyonight-light theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#2959aa"
+bold = true
+
+[argument]
+fg = "#8f5e15"
+
+[description]
+fg = "#343b58"
+
+[hint]
+fg = "#006c86"
+italic = true
+
+[header]
+fg = "#7b43ba"
+bold = true
+
+[command_line]
+fg = "#33635c"
+
+[step_number]
+fg = "#2959aa"
+bold = true
+
+[prompt]
+fg = "#2959aa"
+bold = true
+
+[error]
+fg = "#8c4351"
+bold = true
+
+[warning]
+fg = "#8f5e15"
+
+[success]
+fg = "#33635c"

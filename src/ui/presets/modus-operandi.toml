@@ -1,0 +1,41 @@
+# modus-operandi theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#0031a9"
+bold = true
+
+[argument]
+fg = "#813e00"
+
+[description]
+fg = "#000000"
+
+[hint]
+fg = "#00538b"
+italic = true
+
+[header]
+fg = "#721045"
+bold = true
+
+[command_line]
+fg = "#005e00"
+
+[step_number]
+fg = "#0031a9"
+bold = true
+
+[prompt]
+fg = "#0031a9"
+bold = true
+
+[error]
+fg = "#a60000"
+bold = true
+
+[warning]
+fg = "#813e00"
+
+[success]
+fg = "#005e00"

@@ -1,0 +1,41 @@
+# dracula-iterm theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#bd93f9"
+bold = true
+
+[argument]
+fg = "#f1fa8c"
+
+[description]
+fg = "#f8f8f2"
+
+[hint]
+fg = "#8be9fd"
+italic = true
+
+[header]
+fg = "#ff79c6"
+bold = true
+
+[command_line]
+fg = "#50fa7b"
+
+[step_number]
+fg = "#bd93f9"
+bold = true
+
+[prompt]
+fg = "#bd93f9"
+bold = true
+
+[error]
+fg = "#ff5555"
+bold = true
+
+[warning]
+fg = "#f1fa8c"
+
+[success]
+fg = "#50fa7b"

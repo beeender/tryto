@@ -1,0 +1,41 @@
+# catppuccin-mocha theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#89b4fa"
+bold = true
+
+[argument]
+fg = "#f9e2af"
+
+[description]
+fg = "#cdd6f4"
+
+[hint]
+fg = "#94e2d5"
+italic = true
+
+[header]
+fg = "#f5c2e7"
+bold = true
+
+[command_line]
+fg = "#a6e3a1"
+
+[step_number]
+fg = "#89b4fa"
+bold = true
+
+[prompt]
+fg = "#89b4fa"
+bold = true
+
+[error]
+fg = "#f38ba8"
+bold = true
+
+[warning]
+fg = "#f9e2af"
+
+[success]
+fg = "#a6e3a1"

@@ -1,0 +1,41 @@
+# nordiq theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#81a1c1"
+bold = true
+
+[argument]
+fg = "#ebcb8b"
+
+[description]
+fg = "#dbdee9"
+
+[hint]
+fg = "#88c0d0"
+italic = true
+
+[header]
+fg = "#b48ead"
+bold = true
+
+[command_line]
+fg = "#a3be8c"
+
+[step_number]
+fg = "#81a1c1"
+bold = true
+
+[prompt]
+fg = "#81a1c1"
+bold = true
+
+[error]
+fg = "#bf616a"
+bold = true
+
+[warning]
+fg = "#ebcb8b"
+
+[success]
+fg = "#a3be8c"

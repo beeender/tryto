@@ -1,0 +1,41 @@
+# xterm theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#0000ee"
+bold = true
+
+[argument]
+fg = "#cdcd00"
+
+[description]
+fg = "#e5e5e5"
+
+[hint]
+fg = "#00cdcd"
+italic = true
+
+[header]
+fg = "#cd00cd"
+bold = true
+
+[command_line]
+fg = "#00cd00"
+
+[step_number]
+fg = "#0000ee"
+bold = true
+
+[prompt]
+fg = "#0000ee"
+bold = true
+
+[error]
+fg = "#cd0000"
+bold = true
+
+[warning]
+fg = "#cdcd00"
+
+[success]
+fg = "#00cd00"

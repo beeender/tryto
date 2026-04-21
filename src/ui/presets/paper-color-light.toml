@@ -1,0 +1,41 @@
+# paper-color-light theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#0087af"
+bold = true
+
+[argument]
+fg = "#5f8700"
+
+[description]
+fg = "#444444"
+
+[hint]
+fg = "#005f87"
+italic = true
+
+[header]
+fg = "#878787"
+bold = true
+
+[command_line]
+fg = "#008700"
+
+[step_number]
+fg = "#0087af"
+bold = true
+
+[prompt]
+fg = "#0087af"
+bold = true
+
+[error]
+fg = "#af0000"
+bold = true
+
+[warning]
+fg = "#5f8700"
+
+[success]
+fg = "#008700"

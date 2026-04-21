@@ -1,0 +1,41 @@
+# visibone theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#6699cc"
+bold = true
+
+[argument]
+fg = "#cc9966"
+
+[description]
+fg = "#ffffff"
+
+[hint]
+fg = "#66cccc"
+italic = true
+
+[header]
+fg = "#cc6699"
+bold = true
+
+[command_line]
+fg = "#66cc99"
+
+[step_number]
+fg = "#6699cc"
+bold = true
+
+[prompt]
+fg = "#6699cc"
+bold = true
+
+[error]
+fg = "#cc6666"
+bold = true
+
+[warning]
+fg = "#cc9966"
+
+[success]
+fg = "#66cc99"

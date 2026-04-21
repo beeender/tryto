@@ -1,0 +1,41 @@
+# alacritty theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#6a9fb5"
+bold = true
+
+[argument]
+fg = "#f4bf75"
+
+[description]
+fg = "#d8d8d8"
+
+[hint]
+fg = "#75b5aa"
+italic = true
+
+[header]
+fg = "#aa759f"
+bold = true
+
+[command_line]
+fg = "#90a959"
+
+[step_number]
+fg = "#6a9fb5"
+bold = true
+
+[prompt]
+fg = "#6a9fb5"
+bold = true
+
+[error]
+fg = "#ac4242"
+bold = true
+
+[warning]
+fg = "#f4bf75"
+
+[success]
+fg = "#90a959"

@@ -1,0 +1,41 @@
+# rose-pine-dawn theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#286983"
+bold = true
+
+[argument]
+fg = "#ea9d34"
+
+[description]
+fg = "#575279"
+
+[hint]
+fg = "#d7827e"
+italic = true
+
+[header]
+fg = "#907aa9"
+bold = true
+
+[command_line]
+fg = "#56949f"
+
+[step_number]
+fg = "#286983"
+bold = true
+
+[prompt]
+fg = "#286983"
+bold = true
+
+[error]
+fg = "#b4637a"
+bold = true
+
+[warning]
+fg = "#ea9d34"
+
+[success]
+fg = "#56949f"

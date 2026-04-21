@@ -1,0 +1,41 @@
+# panda theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#5C9FFF"
+bold = true
+
+[argument]
+fg = "#26FFD4"
+
+[description]
+fg = "#F0F0F0"
+
+[hint]
+fg = "#26FFD4"
+italic = true
+
+[header]
+fg = "#FC59A6"
+bold = true
+
+[command_line]
+fg = "#26FFD4"
+
+[step_number]
+fg = "#5C9FFF"
+bold = true
+
+[prompt]
+fg = "#5C9FFF"
+bold = true
+
+[error]
+fg = "#FB055A"
+bold = true
+
+[warning]
+fg = "#26FFD4"
+
+[success]
+fg = "#26FFD4"

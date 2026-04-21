@@ -1,0 +1,41 @@
+# srcery theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#2c78bf"
+bold = true
+
+[argument]
+fg = "#fbb829"
+
+[description]
+fg = "#fce8c3"
+
+[hint]
+fg = "#0aaeb3"
+italic = true
+
+[header]
+fg = "#e02c6d"
+bold = true
+
+[command_line]
+fg = "#519f50"
+
+[step_number]
+fg = "#2c78bf"
+bold = true
+
+[prompt]
+fg = "#2c78bf"
+bold = true
+
+[error]
+fg = "#ef2f27"
+bold = true
+
+[warning]
+fg = "#fbb829"
+
+[success]
+fg = "#519f50"

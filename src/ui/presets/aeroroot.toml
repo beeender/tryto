@@ -1,0 +1,41 @@
+# aeroroot theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#1a7eff"
+bold = true
+
+[argument]
+fg = "#e6e61a"
+
+[description]
+fg = "#dedeef"
+
+[hint]
+fg = "#3ff0e0"
+italic = true
+
+[header]
+fg = "#df3adf"
+bold = true
+
+[command_line]
+fg = "#3aef3a"
+
+[step_number]
+fg = "#1a7eff"
+bold = true
+
+[prompt]
+fg = "#1a7eff"
+bold = true
+
+[error]
+fg = "#ff3a3a"
+bold = true
+
+[warning]
+fg = "#e6e61a"
+
+[success]
+fg = "#3aef3a"

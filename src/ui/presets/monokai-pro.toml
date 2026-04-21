@@ -1,0 +1,41 @@
+# monokai-pro theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#FC9867"
+bold = true
+
+[argument]
+fg = "#FFD866"
+
+[description]
+fg = "#FCFCFA"
+
+[hint]
+fg = "#78DCE8"
+italic = true
+
+[header]
+fg = "#AB9DF2"
+bold = true
+
+[command_line]
+fg = "#A9DC76"
+
+[step_number]
+fg = "#FC9867"
+bold = true
+
+[prompt]
+fg = "#FC9867"
+bold = true
+
+[error]
+fg = "#FF6188"
+bold = true
+
+[warning]
+fg = "#FFD866"
+
+[success]
+fg = "#A9DC76"

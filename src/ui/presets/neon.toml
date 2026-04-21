@@ -1,0 +1,41 @@
+# neon theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#16b1fb"
+bold = true
+
+[argument]
+fg = "#ffa800"
+
+[description]
+fg = "#f8f8f8"
+
+[hint]
+fg = "#0fdcb6"
+italic = true
+
+[header]
+fg = "#ff2491"
+bold = true
+
+[command_line]
+fg = "#97d01a"
+
+[step_number]
+fg = "#16b1fb"
+bold = true
+
+[prompt]
+fg = "#16b1fb"
+bold = true
+
+[error]
+fg = "#d81765"
+bold = true
+
+[warning]
+fg = "#ffa800"
+
+[success]
+fg = "#97d01a"

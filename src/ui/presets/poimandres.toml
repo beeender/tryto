@@ -1,0 +1,41 @@
+# poimandres theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#89ddff"
+bold = true
+
+[argument]
+fg = "#fffac2"
+
+[description]
+fg = "#a6accd"
+
+[hint]
+fg = "#add7ff"
+italic = true
+
+[header]
+fg = "#fcc5e9"
+bold = true
+
+[command_line]
+fg = "#5de4c7"
+
+[step_number]
+fg = "#89ddff"
+bold = true
+
+[prompt]
+fg = "#89ddff"
+bold = true
+
+[error]
+fg = "#d0679d"
+bold = true
+
+[warning]
+fg = "#fffac2"
+
+[success]
+fg = "#5de4c7"

@@ -1,0 +1,41 @@
+# night-owl theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#82aaff"
+bold = true
+
+[argument]
+fg = "#addb67"
+
+[description]
+fg = "#d6deeb"
+
+[hint]
+fg = "#21c7a8"
+italic = true
+
+[header]
+fg = "#c792ea"
+bold = true
+
+[command_line]
+fg = "#22da6e"
+
+[step_number]
+fg = "#82aaff"
+bold = true
+
+[prompt]
+fg = "#82aaff"
+bold = true
+
+[error]
+fg = "#ef5350"
+bold = true
+
+[warning]
+fg = "#addb67"
+
+[success]
+fg = "#22da6e"

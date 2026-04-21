@@ -1,0 +1,41 @@
+# deus theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#83a598"
+bold = true
+
+[argument]
+fg = "#e5c07b"
+
+[description]
+fg = "#eaeaea"
+
+[hint]
+fg = "#70c0ba"
+italic = true
+
+[header]
+fg = "#c678dd"
+bold = true
+
+[command_line]
+fg = "#98c379"
+
+[step_number]
+fg = "#83a598"
+bold = true
+
+[prompt]
+fg = "#83a598"
+bold = true
+
+[error]
+fg = "#d54e53"
+bold = true
+
+[warning]
+fg = "#e5c07b"
+
+[success]
+fg = "#98c379"

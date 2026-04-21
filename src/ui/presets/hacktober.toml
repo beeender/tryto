@@ -1,0 +1,41 @@
+# hacktober theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#206ec5"
+bold = true
+
+[argument]
+fg = "#d08949"
+
+[description]
+fg = "#c9c9c9"
+
+[hint]
+fg = "#ac9166"
+italic = true
+
+[header]
+fg = "#864651"
+bold = true
+
+[command_line]
+fg = "#587744"
+
+[step_number]
+fg = "#206ec5"
+bold = true
+
+[prompt]
+fg = "#206ec5"
+bold = true
+
+[error]
+fg = "#b34538"
+bold = true
+
+[warning]
+fg = "#d08949"
+
+[success]
+fg = "#587744"

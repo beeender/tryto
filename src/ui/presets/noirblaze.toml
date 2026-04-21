@@ -1,0 +1,41 @@
+# noirblaze theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#b0b0b0"
+bold = true
+
+[argument]
+fg = "#ffffff"
+
+[description]
+fg = "#d5d5d5"
+
+[hint]
+fg = "#787878"
+italic = true
+
+[header]
+fg = "#7a7a7a"
+bold = true
+
+[command_line]
+fg = "#00ff77"
+
+[step_number]
+fg = "#b0b0b0"
+bold = true
+
+[prompt]
+fg = "#b0b0b0"
+bold = true
+
+[error]
+fg = "#ff0088"
+bold = true
+
+[warning]
+fg = "#ffffff"
+
+[success]
+fg = "#00ff77"

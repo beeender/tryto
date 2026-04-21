@@ -1,0 +1,41 @@
+# solarized-light theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#268bd2"
+bold = true
+
+[argument]
+fg = "#b58900"
+
+[description]
+fg = "#657b83"
+
+[hint]
+fg = "#2aa198"
+italic = true
+
+[header]
+fg = "#d33682"
+bold = true
+
+[command_line]
+fg = "#859900"
+
+[step_number]
+fg = "#268bd2"
+bold = true
+
+[prompt]
+fg = "#268bd2"
+bold = true
+
+[error]
+fg = "#dc322f"
+bold = true
+
+[warning]
+fg = "#b58900"
+
+[success]
+fg = "#859900"

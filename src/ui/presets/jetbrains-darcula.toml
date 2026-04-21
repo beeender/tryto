@@ -1,0 +1,41 @@
+# jetbrains-darcula theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#4581eb"
+bold = true
+
+[argument]
+fg = "#c2c300"
+
+[description]
+fg = "#adadad"
+
+[hint]
+fg = "#33c2c1"
+italic = true
+
+[header]
+fg = "#fa54ff"
+bold = true
+
+[command_line]
+fg = "#126e00"
+
+[step_number]
+fg = "#4581eb"
+bold = true
+
+[prompt]
+fg = "#4581eb"
+bold = true
+
+[error]
+fg = "#fa5355"
+bold = true
+
+[warning]
+fg = "#c2c300"
+
+[success]
+fg = "#126e00"

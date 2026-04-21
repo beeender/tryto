@@ -1,0 +1,41 @@
+# catppuccin-frappe theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#8caaee"
+bold = true
+
+[argument]
+fg = "#e5c890"
+
+[description]
+fg = "#c6d0f5"
+
+[hint]
+fg = "#81c8be"
+italic = true
+
+[header]
+fg = "#f4b8e4"
+bold = true
+
+[command_line]
+fg = "#a6d189"
+
+[step_number]
+fg = "#8caaee"
+bold = true
+
+[prompt]
+fg = "#8caaee"
+bold = true
+
+[error]
+fg = "#e78284"
+bold = true
+
+[warning]
+fg = "#e5c890"
+
+[success]
+fg = "#a6d189"

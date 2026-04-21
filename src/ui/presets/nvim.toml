@@ -1,0 +1,41 @@
+# nvim theme preset
+# Neovim's default dark theme
+
+[executable]
+fg = "#004c73"
+bold = true
+
+[argument]
+fg = "#6b5300"
+
+[description]
+fg = "#14161b"
+
+[hint]
+fg = "#007373"
+italic = true
+
+[header]
+fg = "#470045"
+bold = true
+
+[command_line]
+fg = "#005523"
+
+[step_number]
+fg = "#004c73"
+bold = true
+
+[prompt]
+fg = "#004c73"
+bold = true
+
+[error]
+fg = "#590008"
+bold = true
+
+[warning]
+fg = "#6b5300"
+
+[success]
+fg = "#005523"

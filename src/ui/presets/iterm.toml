@@ -1,0 +1,41 @@
+# iterm theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#47a0f3"
+bold = true
+
+[argument]
+fg = "#f6c744"
+
+[description]
+fg = "#fffbf6"
+
+[hint]
+fg = "#64dbed"
+italic = true
+
+[header]
+fg = "#7b5cb0"
+bold = true
+
+[command_line]
+fg = "#abe047"
+
+[step_number]
+fg = "#47a0f3"
+bold = true
+
+[prompt]
+fg = "#47a0f3"
+bold = true
+
+[error]
+fg = "#eb4129"
+bold = true
+
+[warning]
+fg = "#f6c744"
+
+[success]
+fg = "#abe047"

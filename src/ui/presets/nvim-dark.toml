@@ -1,0 +1,41 @@
+# nvim-dark theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#a6dbff"
+bold = true
+
+[argument]
+fg = "#fce094"
+
+[description]
+fg = "#e0e2ea"
+
+[hint]
+fg = "#8cf8f7"
+italic = true
+
+[header]
+fg = "#ffcaff"
+bold = true
+
+[command_line]
+fg = "#b3f6c0"
+
+[step_number]
+fg = "#a6dbff"
+bold = true
+
+[prompt]
+fg = "#a6dbff"
+bold = true
+
+[error]
+fg = "#ffc0b9"
+bold = true
+
+[warning]
+fg = "#fce094"
+
+[success]
+fg = "#b3f6c0"

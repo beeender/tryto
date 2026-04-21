@@ -1,0 +1,41 @@
+# derp theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#5297cf"
+bold = true
+
+[argument]
+fg = "#e7e18c"
+
+[description]
+fg = "#ffffff"
+
+[hint]
+fg = "#5e7175"
+italic = true
+
+[header]
+fg = "#963c59"
+bold = true
+
+[command_line]
+fg = "#aece91"
+
+[step_number]
+fg = "#5297cf"
+bold = true
+
+[prompt]
+fg = "#5297cf"
+bold = true
+
+[error]
+fg = "#d36265"
+bold = true
+
+[warning]
+fg = "#e7e18c"
+
+[success]
+fg = "#aece91"

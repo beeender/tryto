@@ -1,0 +1,41 @@
+# zenburn theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#6ca0a3"
+bold = true
+
+[argument]
+fg = "#d0bf8f"
+
+[description]
+fg = "#dcdccc"
+
+[hint]
+fg = "#93e0e3"
+italic = true
+
+[header]
+fg = "#dc8cc3"
+bold = true
+
+[command_line]
+fg = "#7f9f7f"
+
+[step_number]
+fg = "#6ca0a3"
+bold = true
+
+[prompt]
+fg = "#6ca0a3"
+bold = true
+
+[error]
+fg = "#cc9393"
+bold = true
+
+[warning]
+fg = "#d0bf8f"
+
+[success]
+fg = "#7f9f7f"

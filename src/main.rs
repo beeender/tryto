@@ -96,7 +96,7 @@ fn handle_theme_command(
             println!();
             for name in theme::list_presets() {
                 let current = config.as_ref().and_then(|c| c.theme.as_deref());
-                let display_name = if Some(name) == current.as_ref() {
+                let display_name = if Some(name) == current {
                     format!("* {}", name)
                 } else {
                     format!("  {}", name)

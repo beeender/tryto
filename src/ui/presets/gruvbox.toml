@@ -1,0 +1,41 @@
+# Gruvbox theme preset
+# Classic retro groove theme (dark variant)
+
+[executable]
+fg = "#458588"
+bold = true
+
+[argument]
+fg = "#d79921"
+
+[description]
+fg = "#ebdbb2"
+
+[hint]
+fg = "#689d6a"
+italic = true
+
+[header]
+fg = "#b16286"
+bold = true
+
+[command_line]
+fg = "#98971a"
+
+[step_number]
+fg = "#458588"
+bold = true
+
+[prompt]
+fg = "#458588"
+bold = true
+
+[error]
+fg = "#cc241d"
+bold = true
+
+[warning]
+fg = "#d79921"
+
+[success]
+fg = "#98971a"

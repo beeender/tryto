@@ -1,0 +1,41 @@
+# apprentice theme preset
+# Converted from foot terminal theme
+
+[executable]
+fg = "#5f87af"
+bold = true
+
+[argument]
+fg = "#87875f"
+
+[description]
+fg = "#bcbcbc"
+
+[hint]
+fg = "#5f8787"
+italic = true
+
+[header]
+fg = "#5f5f87"
+bold = true
+
+[command_line]
+fg = "#5f875f"
+
+[step_number]
+fg = "#5f87af"
+bold = true
+
+[prompt]
+fg = "#5f87af"
+bold = true
+
+[error]
+fg = "#af5f5f"
+bold = true
+
+[warning]
+fg = "#87875f"
+
+[success]
+fg = "#5f875f"
