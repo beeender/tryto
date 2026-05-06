@@ -2,6 +2,10 @@
 name = "tryto"
 version = "0.1.0"
 edition = "2024"
+description = "Natural language to shell command converter powered by AI"
+license = "MIT"
+repository = "https://github.com/beeender/tryto"
+authors = ["Chen Mulong"]
 
 [dependencies]
 env_logger = "0.11"
